@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jozibear247 Driver</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="text_fname">FIRST NAME</string>
+    <string name="text_lname">LAST NAME</string>
+    <string name="text_email">EMAIL</string>
+    <string name="text_number">NUMBER</string>
+    <string name="text_passs">PASSWORD</string>
+    <string name="text_address">ADDRESS</string>
+    <string name="time_zone">TIME ZONE</string>
+    <string name="text_bio">BIO</string>
+    <string name="text_license">LICENSE PLATE NO:</string>
+    <string name="text_zip">ZIPCODE</string>
+    <string name="text_google">GOOGLE</string>
+    <string name="text_facebook">FACEBOOK</string>
+    <string name="text_next">NEXT</string>
+    <string name="text_signin">Login</string>
+    <string name="text_signin_caps">LOGIN</string>
+    <string name="text_mything">MY THING</string>
+    <string name="text_desc1">DESC.1</string>
+    <string name="text_desc2">DESC.2</string>
+    <string name="text_comment">COMMENT</string>
+    <string name="text_register">Register</string>
+    <string name="text_register_caps">REGISTER</string>
+    <string name="text_feedback">Feedback</string>
+    <string name="text_forget_password">Forgot Password</string>
+    <string name="text_credit_card_number">CREDIT CARD NUMBER</string>
+    <string name="text_mm">MM</string>
+    <string name="text_yy">YY</string>
+    <string name="text_cvc">CVC</string>
+    <string name="text_addpayment">ADD PAYMENT</string>
+    <string name="text_submit">SUBMIT</string>
+    <string name="text_skip">SKIP</string>
+    <string name="text_or">OR</string>
+    <string name="text_forgetpass">FORGOT PASSWORD ?</string>
+    <string name="text_scan">SCAN</string>
+    <string name="text_contacting">CONTACTING NEARBY\nSERVICE PROVIDERS</string>
+    <string name="text_waiting_for_confirm">WAITING FOR THE\nPROVIDER TO CONFIRM</string>
+    <string name="text_cancel">CANCEL</string>
+    <string name="text_wait">Wait</string>
+    <string name="text_getting_info_facebook">Getting Info From facebook</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="my_location">MY LOCATION</string>
+    <string name="client_location">CLIENT LOCATION</string>
+    <string name="client_d_location">CLIENT DESTINATION</string>
+    <string name="job_start_location">JOB START LOCATION</string>
+    <string name="text_miles">MILES</string>
+    <string name="text_mins">MINS</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_history">History</string>
+    <string name="text_setting">Settings</string>
+    <string name="text_avaibility">Availability</string>
+    <string name="text_logout">Logout</string>
+    <string name="text_seconds"> SECONDS</string>
+    <string name="text_invoice">Invoice</string>
+    <string name="text_base_price">BASE PRICE</string>
+    <string name="text_distance_cost">DISTANCE COST</string>
+    <string name="text_time_cost">TIME COST</string>
+    <string name="text_admin_cost">For Admin </string>
+    <string name="text_provider_cost">For Provider</string>
+    <string name="text_discount">Discounts</string>
+    <string name="text_time">TIME</string>
+    <string name="text_total">TOTAL DUE</string>
+    <string name="text_to_pay">RAND TO PAY</string>
+    <string name="text_close">CLOSE</string>
+    <string name="text_cost_per_mile"> per mile</string>
+    <string name="text_cost_per_min"> per min</string>
+    <string name="text_cost_for_admin"> For Admin</string>
+    <string name="text_cost_for_provider"> For Provider</string>
+    <string name="text_no_history">No history to display</string>
+    <string name="text_today">TODAY</string>
+    <string name="text_yesterday">YESTERDAY</string>
+    <string name="text_select_service">SELECT TYPE OF CAR YOU DRIVE</string>
+    <string name="text_forgot_password">Your password would be mailed to your registered email</string>
+
+    <!-- facebook app id -->
+    <string name="app_id">1647541992163067</string>
+    <string name="map_api_key">AIzaSyBWJlYEsEcEjVefn-0FJ5WbhN6mL2kaK9M</string>
+    <!-- drawer array items -->
+    <string-array name="menu_items">
+        <item>PROFILE</item>
+        <!-- <item>PAYMENT</item> -->
+        <item>PROMOTIONS</item>
+        <item>SHARE</item>
+        <item>SUPPORT</item>
+        <item>ABOUT</item>
+        <item>LOGOUT</item>
+    </string-array>
+
+    <!-- client request -->
+    <string name="text_accept">ACCEPT</string>
+    <string name="text_reject">REJECT</string>
+
+    <!-- payment dialog -->
+    <string name="text_amount">AMOUNT</string>
+    <string name="text_send">SEND</string>
+
+    <!-- Job Details -->
+
+    <string name="text_call">CALL USER</string>
+    <string name="text_walker_started">TAP WHEN STARTED</string>
+    <string name="text_walker_arrived">TAP WHEN ARRIVED</string>
+    <string name="text_walk_started">START SERVICE</string>
+    <string name="text_walk_completed">FINISH SERVICE</string>
+
+    <!-- job done -->
+    <string name="text_job_done">JOB DONE</string>
+
+    <!-- feedback -->
+    <string name="text_empty_feedback">Please Enter Feedback</string>
+
+    <!-- profile -->
+    <string name="text_edit_profile">EDIT PROFILE</string>
+    <string name="text_update_profile">UPDATE PROFILE</string>
+    <!-- validations -->
+    <string name="error_valid_email">Please Enter Valid Email Address</string>
+    <string name="error_empty_email">Enter Email Address</string>
+    <string name="error_empty_password">Enter Password</string>
+    <string name="error_valid_password">Password should at least 6 characters long</string>
+    <string name="error_empty_fname">Enter Firstname</string>
+    <string name="error_empty_lname">Enter Lastname</string>
+    <string name="error_empty_number">Enter Phone Number</string>
+    <string name="error_empty_address">Enter Address</string>
+    <string name="error_empty_bio">Enter Bio</string>
+    <string name="error_empty_zipcode">Enter Zipcode</string>
+    <string name="error_empty_image">Please select profile image</string>
+    <string name="error_empty_type">Please select a vehicle type</string>
+    <string name="error_empty_timezone">Please select a TimeZone</string>
+
+    <!-- GCM -->
+    <string name="register_gcm">Registering for GCM</string>
+    <string name="register_gcm_failed">Failed to register with GCM</string>
+
+    <!-- logout -->
+    <string name="dialog_logout">LOG OUT</string>
+    <string name="dialog_logout_text">Are you sure you want to logout?</string>
+
+    <!-- toast -->
+    <string name="toast_no_internet">Internet Not Available</string>
+    <string name="toast_signin_failed">SignIn Failed</string>
+    <string name="toast_register_success">Thank you for registering with Jozibear 24/7. Your account has been created, and a verification email has been sent to your registered email address. Please click on the verification link included in the email to activate your account. Important! Your account will not be activated until you verify your email address.</string>
+    <string name="toast_register_failed">Registration Failed</string>
+    <string name="toast_email">Email id already existed, please log in </string>
+    <string name="toast_facebook_login_failed">facebook login failed</string>
+    <string name="toast_unable_to_selct_image">unable to select image</string>
+    <string name="toast_unable_respond_request">Unable to respond to request</string>
+    <string name="toast_unable_send_request">Request sending failed</string>
+    <string name="toast_feedback_success">Feedback successfully given</string>
+    <string name="toast_feedback_failed">Feedback sending failed</string>
+    <string name="toast_time_over">Your time is over for responding to request</string>
+    <string name="toast_number_not_found">Number not found</string>
+    <string name="toast_update_profile_success">Update Success</string>
+    <string name="toast_update_profile_failed">Update Failed</string>
+    <string name="toast_email_ivalid">Not a valid email</string>
+    <string name="toast_forget_password_success">Password sent to registered email address</string>
+
+    <!-- dialog -->
+    <string name="dialog_title_select_time">SELECT TIME</string>
+    <string name="dialog_title_country_codes">COUNTRY CODES</string>
+    <string name="dialog_chhose_photo">CHOOSE PHOTO</string>
+    <string name="dialog_from_gallery">GALLERY</string>
+    <string name="dialog_from_camera">CAMERA</string>
+    <string name="dialog_no_internet">No Internet</string>
+    <string name="dialog_no_gps">No GPS</string>
+    <string name="dialog_no_inter_message">You have no active internet connection.</string>
+    <string name="dialog_no_gps_messgae">Seems like you have not started your location service.</string>
+    <string name="dialog_enable_gps">Enable GPS</string>
+    <string name="dialog_enable_3g">Enable 3G</string>
+    <string name="dialog_enable_wifi">Enable WIFI</string>
+    <string name="dialog_exit">Exit</string>
+
+    <!-- progress dialog -->
+    <string name="progress_dialog_sign_in">Logging In...</string>
+    <string name="progress_dialog_register">Registering...</string>
+    <string name="progress_dialog_request">Getting Requests...</string>
+    <string name="progress_rating">Rating....</string>
+    <string name="progress_respond_request">Responding to Request.....</string>
+    <string name="progress_send_request">Sending Requests.....</string>
+    <string name="progress_loading">Loading.....</string>
+    <string name="progress_getting_info">Getting Info.....</string>
+    <string name="progress_update_profile">Updating Profile....</string>
+    <string name="progress_getting_types">Getting Types....</string>
+    <string name="progress_getting_history">Getting History....</string>
+    <string name="progress_getting_avaibility">Getting Availability....</string>
+    <string name="progress_changing_avaibilty">Changing Availability....</string>
+
+    <!-- location -->
+    <string name="connection_error_code">Connection failure error code: %1$d</string>
+    <string name="connection_error_disabled">Google Play services is disabled</string>
+    <string name="connection_error_internal">An internal error occurred</string>
+    <string name="connection_error_invalid">The version of Google Play services on this device is not authentic</string>
+    <string name="connection_error_invalid_account">The specified account name is invalid</string>
+    <string name="connection_error_license_check_failed">The app is not licensed to the user</string>
+    <string name="connection_error_message">Connection failure error message: %1$s</string>
+    <string name="connection_error_misconfigured">The application is misconfigured</string>
+    <string name="connection_error_missing">Google Play services is missing</string>
+    <string name="connection_error_needs_resolution">Additional resolution is required</string>
+    <string name="connection_error_network">A network error occurred</string>
+    <string name="connection_error_outdated">Google Play services is out of date</string>
+    <string name="connection_error_sign_in_required">The user is not signed in</string>
+    <string name="connection_error_unknown">An unknown error occurred</string>
+
+    <!-- error code -->
+    <string name="error_401">Invalid Input</string>
+    <string name="error_402">Email ID Already Registered</string>
+    <string name="error_403">Invaid Username and Password</string>
+    <string name="error_404">Not a Registered User</string>
+    <string name="error_405">Token Expired</string>
+    <string name="error_406">Invalid Token</string>
+    <string name="error_407">Walk ID doesnot matches with Dog ID</string>
+    <string name="error_408">Walk ID Not Found</string>
+    <string name="error_409">Already Rated</string>
+    <string name="error_410">Owner ID not Found</string>
+    <string name="error_411">Token and Schedule ID doesnot match</string>
+    <string name="error_412">Schedule ID not found</string>
+    <string name="error_413">Walk Not confirmed</string>
+    <string name="error_414">Walk not yet started</string>
+    <string name="error_415">Walk not Completed</string>
+    <string name="error_416">Walk already started</string>
+    <string name="error_417">Device type or device token or login by mismatch</string>
+    <!-- dialog -->
+
+    <string name="dialog_no_location_service">Please turn on location service from settings, must press on/off toggle and agree to access location and restart an app.\nNote:if you have already did choices with disagree and dont show dialog again then location dialog not show when you press on/off toggle button.to solve this problem you must clear all setting preferences.</string>
+    <string name="dialog_no_location_service_title">Locaton service is off.</string>
+    <string name="dialog_enable_location_service">Go to Location Service</string>
+
+</resources>

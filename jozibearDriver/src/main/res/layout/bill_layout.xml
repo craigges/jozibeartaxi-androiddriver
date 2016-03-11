@@ -1,0 +1,290 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/relMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bill_trans"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_bill"
+                android:gravity="center_horizontal" >
+
+                <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/bill_paper"
+                    android:text="@string/text_invoice"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen_invoice_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimen_bill_padding_one"
+                android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                <com.jozibear247_cab.driver.widget.MyFontTextView
+                    android:id="@+id/tvBasePriceText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/text_base_price"
+                    android:textColor="@color/color_app_gray"
+                    android:textSize="@dimen/dimen_invoice_baseprice"
+                    android:textStyle="bold" />
+
+                <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/tvBasePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                    android:gravity="center"
+                    android:text="60.00"
+                    android:textColor="@color/color_blue"
+                    android:textSize="@dimen/invoice_price_font" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_second_top"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_second_top"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimen_bill_padding_one"
+                android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <com.jozibear247_cab.driver.widget.MyFontTextView
+                        android:id="@+id/tvDistCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right"
+                        android:text="@string/text_distance_cost"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/dimen_invoice_baseprice"
+                        android:textStyle="bold" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                        android:id="@+id/tvBillDistancePerMile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right"
+                        android:text="@string/text_base_price"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small" />
+                </LinearLayout>
+
+                <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/tvDis1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/color_blue"
+                    android:textSize="@dimen/invoice_price_font" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_second_top"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_line"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimen_bill_padding_one"
+                android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <com.jozibear247_cab.driver.widget.MyFontTextView
+                        android:id="@+id/tvTimeCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right"
+                        android:text="@string/text_time_cost"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/dimen_invoice_baseprice"
+                        android:textStyle="bold" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                        android:id="@+id/tvBillTimePerHour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|right"
+                        android:text="@string/text_base_price"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small" />
+                </LinearLayout>
+
+                <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/tvTime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/color_blue"
+                    android:textSize="@dimen/invoice_price_font" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_bill_second_top"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dimen_bill_padding_one"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_bill_second_top"
+                        android:gravity="center"
+                        android:text="@string/text_total"
+                        android:textColor="@color/color_app_gray"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                            android:id="@+id/tvTotal1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="60.00"
+                            android:textColor="@color/color_blue"
+                            android:textSize="@dimen/dimen_bill_text" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
+
+                <com.jozibear247_cab.driver.widget.MyFontTextView
+                    android:id="@+id/adminCost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@string/text_admin_cost"
+                    android:textColor="@color/color_app_gray"
+                    android:textSize="13dp" />
+
+                <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/providercost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@string/text_provider_cost"
+                    android:textColor="@color/color_app_gray"
+                    android:textSize="13dp" />
+                 <com.jozibear247_cab.driver.widget.MyFontTextViewTitle
+                    android:id="@+id/discounts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@string/text_discount"
+                    android:textColor="@color/color_app_gray"
+                    android:textSize="13dp" />
+                
+                
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:gravity="bottom" >
+
+                <com.jozibear247_cab.driver.widget.MyFontButton
+                    android:id="@+id/btnBillDialogClose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/btn_bill"
+                    android:text="@string/text_close"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
