@@ -19,6 +19,7 @@ out/
 # Gradle files
 .gradle/
 build/
+.idea/
 androidswitchbackport/build/
 circularImageView_Client/build/
 cropLibrary/build/
