@@ -272,16 +272,36 @@
                 android:layout_gravity="bottom|end"
                 android:gravity="bottom" >
 
-                <com.jozibear247_cab.driver.widget.MyFontButton
-                    android:id="@+id/btnBillDialogClose"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:background="@drawable/btn_bill"
-                    android:text="@string/text_close"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/white" />
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal" >
+
+                    <com.jozibear247_cab.driver.widget.MyFontButton
+                        android:id="@+id/btnBillFinishPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_bill"
+                        android:text="@string/text_finish_payment"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/white" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontButton
+                        android:id="@+id/btnBillNotPaid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_bill"
+                        android:text="@string/text_trip_not_paid"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
 
             </RelativeLayout>
         </LinearLayout>

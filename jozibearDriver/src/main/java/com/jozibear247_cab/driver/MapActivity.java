@@ -606,7 +606,6 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 
 				break;
 			case AndyConstants.IS_DOG_RATED:
-
 				FeedbackFragment feedbackFragment = new FeedbackFragment();
 				bundle.putSerializable(AndyConstants.REQUEST_DETAIL,
 						requestDetail);

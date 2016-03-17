@@ -67,6 +67,8 @@
     <string name="text_total">TOTAL DUE</string>
     <string name="text_to_pay">RAND TO PAY</string>
     <string name="text_close">CLOSE</string>
+    <string name="text_finish_payment">FINISH PAYMENT</string>
+    <string name="text_trip_not_paid">TRIP NOT PAID</string>
     <string name="text_cost_per_mile"> per mile</string>
     <string name="text_cost_per_min"> per min</string>
     <string name="text_cost_for_admin"> For Admin</string>

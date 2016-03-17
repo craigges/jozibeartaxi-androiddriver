@@ -24,7 +24,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jozibear247_cab.driver.GCMIntentService;
 import com.jozibear247_cab.driver.R;
 import com.jozibear247_cab.driver.base.BaseMapFragment;
 import com.jozibear247_cab.driver.locationupdate.LocationHelper;
@@ -369,8 +368,8 @@ public class ClientRequestFragment extends BaseMapFragment implements
 				if (selector == false) {
 					selector = true;
 
-					GCMIntentService.generateNotification(getActivity(),
-							"New Request");
+//					GCMIntentService.generateNotification(getActivity(),
+//							"New Request");
 					stopCheckingUpcomingRequests();
 					// startTimerForRespondRequest(requestDetail.getTimeLeft());
 					setComponentVisible();
@@ -703,7 +702,6 @@ public class ClientRequestFragment extends BaseMapFragment implements
 		locationHelper.setGoogleMap(null);
 		super.onDestroyView();
 	}
-
 
 	private class newRequestReciever extends BroadcastReceiver {
 
