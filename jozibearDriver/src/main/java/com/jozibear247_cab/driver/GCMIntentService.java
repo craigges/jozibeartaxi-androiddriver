@@ -92,6 +92,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				Intent i = new Intent("CANCEL_REQUEST");
 				context.sendBroadcast(i);
 				generateNotification(context, message);
+			} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 4) {
+				generateNotification(context, message);
 			}
 			else {
 //				preferenceHelper = PreferenceHelper.getInstance(context);
@@ -162,7 +164,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 						| PowerManager.ON_AFTER_RELEASE, "WakeLock");
 		wakeLock.acquire();
 		wakeLock.release();
-
 	}
 
 	private void publishResults(String regid, int result) {

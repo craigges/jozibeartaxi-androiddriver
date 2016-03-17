@@ -280,9 +280,13 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " "
 				+ totalTmp);
 
-		Button btnConfirm = (Button) mDialog
-				.findViewById(R.id.btnBillDialogClose);
+		Button btnNotPaid = (Button) mDialog
+				.findViewById(R.id.btnBillNotPaid);
+		btnNotPaid.setVisibility(View.GONE);
 
+		Button btnConfirm = (Button) mDialog
+				.findViewById(R.id.btnBillFinishPayment);
+		btnConfirm.setText("CLOSE");
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -293,7 +297,6 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		});
 		mDialog.setCancelable(true);
 		mDialog.show();
-
 	}
 
 	@Override

@@ -67,24 +67,20 @@ public class AndyConstants {
 				+ "requestwalkerstarted";
 		public static final String WALK_ARRIVED = BASE_URL
 				+ "requestwalkerarrived";
-		public static final String WALK_STARTED = BASE_URL
-				+ "requestwalkstarted";
-		public static final String WALK_COMPLETED = BASE_URL
-				+ "requestwalkcompleted";
+		public static final String WALK_STARTED = BASE_URL + "requestwalkstarted";
+		public static final String WALK_COMPLETED = BASE_URL + "requestwalkcompleted";
+		public static final String FINISH_PAYMENT = BASE_URL + "finish_payment";
 		public static final String RATING = BASE_URL + "rating";
 		public static final String UPDATE_PROFILE = BASE_URL + "update";
 		public static final String HISTORY = BASE_URL + "history?";
 		public static final String PATH_REQUEST = BASE_URL + "requestpath?";
-		public static final String REQUEST_LOCATION_UPDATE = HOST_URL
-				+ "request/location";
+		public static final String REQUEST_LOCATION_UPDATE = HOST_URL + "request/location";
 		public static final String CHECK_STATE = BASE_URL + "checkstate?";
 		public static final String TOGGLE_STATE = BASE_URL + "togglestate";
 		public static final String FORGET_PASSWORD = HOST_URL
 				+ "application/forgot-password";
-		public static final String GET_VEHICAL_TYPES = HOST_URL
-				+ "application/types";
-		public static final String APPLICATION_PAGES = HOST_URL
-				+ "application/pages";
+		public static final String GET_VEHICAL_TYPES = HOST_URL + "application/types";
+		public static final String APPLICATION_PAGES = HOST_URL + "application/pages";
 	}
 
 	public class ServiceCode {
@@ -108,6 +104,7 @@ public class AndyConstants {
 		public static final int CHECK_STATE = 19;
 		public static final int TOGGLE_STATE = 20;
 		public static final int PATH_REQUEST = 21;
+		public static final int FINISH_PAYMENT = 22;
 	}
 
 	// webservice key constants
@@ -164,5 +161,6 @@ public class AndyConstants {
 		public static final String LOCATION_DATA = "locationdata";
 		public static final String START_TIME = "start_time";
 		public static final String TIMEZONE="timezone";
+		public static final String PAY_RESULT = "pay_result";
 	}
 }
