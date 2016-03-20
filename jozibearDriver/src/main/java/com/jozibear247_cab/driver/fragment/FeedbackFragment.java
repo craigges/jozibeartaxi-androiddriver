@@ -184,27 +184,41 @@ public class FeedbackFragment extends BaseMapFragment implements
 		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " "
 				+ totalTmp);
 
-		Button btnFinishPayment = (Button) mDialog.findViewById(R.id.btnBillFinishPayment);
-		btnFinishPayment.setOnClickListener(new View.OnClickListener() {
+		Button btnNotPaid = (Button) mDialog
+				.findViewById(R.id.btnBillNotPaid);
+		btnNotPaid.setVisibility(View.GONE);
+
+		Button btnConfirm = (Button) mDialog
+				.findViewById(R.id.btnBillFinishPayment);
+		btnConfirm.setText("CLOSE");
+		btnConfirm.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sendFinishPayment(1);
 				mDialog.dismiss();
 			}
 		});
-
-		Button btnNotPaid = (Button) mDialog.findViewById(R.id.btnBillNotPaid);
-		btnNotPaid.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				sendFinishPayment(0);
-				mDialog.dismiss();
-			}
-		});
+//		Button btnFinishPayment = (Button) mDialog.findViewById(R.id.btnBillFinishPayment);
+//		btnFinishPayment.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				sendFinishPayment(1);
+//				mDialog.dismiss();
+//			}
+//		});
+//		Button btnNotPaid = (Button) mDialog.findViewById(R.id.btnBillNotPaid);
+//		btnNotPaid.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				sendFinishPayment(0);
+//				mDialog.dismiss();
+//			}
+//		});
 
 		mDialog.setCancelable(true);
 		mDialog.show();
