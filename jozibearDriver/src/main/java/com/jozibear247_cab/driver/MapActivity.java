@@ -667,6 +667,13 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			if (parseContent.parseAvaibilty(response)) {
 				changeState();
 			} else {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
+				map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(this).getUserId());
+				map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(this).getSessionToken());
+				new HttpRequester(this, map,
+						AndyConstants.ServiceCode.LOGOUT, true, this);
+
 				PreferenceHelper.getInstance(this).Logout();
 				goToMainActivity();
 			}

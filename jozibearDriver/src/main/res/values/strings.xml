@@ -61,15 +61,16 @@
     <string name="text_distance_cost">DISTANCE COST</string>
     <string name="text_time_cost">TIME COST</string>
     <string name="text_admin_cost">For Admin </string>
-    <string name="text_provider_cost">For Provider</string>
+    <string name="text_provider_cost">For Driver</string>
     <string name="text_discount">Discounts</string>
     <string name="text_time">TIME</string>
     <string name="text_total">TOTAL DUE</string>
     <string name="text_to_pay">RAND TO PAY</string>
     <string name="text_close">CLOSE</string>
-    <string name="text_finish_payment">FINISH PAYMENT</string>
-    <string name="text_trip_not_paid">TRIP NOT PAID</string>
-    <string name="text_cost_per_mile"> per mile</string>
+    <string name="text_pay_by_cash">PAID BY CASH</string>
+    <string name="text_pay_by_card">PAID BY CARD</string>
+    <string name="text_trip_not_paid">NOT PAID</string>
+    <string name="text_cost_per_km"> per km</string>
     <string name="text_cost_per_min"> per min</string>
     <string name="text_cost_for_admin"> For Admin</string>
     <string name="text_cost_for_provider"> For Provider</string>
@@ -78,6 +79,7 @@
     <string name="text_yesterday">YESTERDAY</string>
     <string name="text_select_service">SELECT TYPE OF CAR YOU DRIVE</string>
     <string name="text_forgot_password">Your password would be mailed to your registered email</string>
+    <string name="text_account_blocked">Your account has been blocked. Please contact support@jozibear247.com for a prompt resulution!</string>
 
     <!-- facebook app id -->
     <string name="app_id">1647541992163067</string>

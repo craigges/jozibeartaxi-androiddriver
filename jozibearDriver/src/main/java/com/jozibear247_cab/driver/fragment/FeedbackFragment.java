@@ -43,6 +43,8 @@ public class FeedbackFragment extends BaseMapFragment implements
 
 	private final String TAG = "FeedbackFragment";
 	private AQuery aQuery;
+	private Dialog m_invoiceDlg;
+	private boolean m_bNotPaid;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,13 +101,13 @@ public class FeedbackFragment extends BaseMapFragment implements
 	}
 
 	private void showInvoiceDialog(final Bill bill) {
-		final Dialog mDialog = new Dialog(getActivity(),
+		m_invoiceDlg = new Dialog(getActivity(),
 				android.R.style.Theme_Translucent_NoTitleBar);
-		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		m_invoiceDlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		mDialog.getWindow().setBackgroundDrawable(
+		m_invoiceDlg.getWindow().setBackgroundDrawable(
 				new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		mDialog.setContentView(R.layout.bill_layout);
+		m_invoiceDlg.setContentView(R.layout.bill_layout);
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		DecimalFormat perHourFormat = new DecimalFormat("0.0");
 		String currency = bill.getCurrency();
@@ -128,16 +130,16 @@ public class FeedbackFragment extends BaseMapFragment implements
 				.parseDouble(bill.getSecoundry_amount()))
 				- (Double.parseDouble(bill.getTotal())))));
 
-		((TextView) mDialog.findViewById(R.id.tvBasePrice)).setText(currency
+		((TextView) m_invoiceDlg.findViewById(R.id.tvBasePrice)).setText(currency
 				+ " " + basePrice);
 		if (distCostTmp.equals("0.00")) {
-			((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
+			((TextView) m_invoiceDlg.findViewById(R.id.tvBillDistancePerMile))
 					.setText(currency
 							+ "0 "
 							+ getResources().getString(
-							R.string.text_cost_per_mile));
+							R.string.text_cost_per_km));
 		} else
-			((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
+			((TextView) m_invoiceDlg.findViewById(R.id.tvBillDistancePerMile))
 					.setText(currency
 
 							+ String.valueOf(perHourFormat.format((Double
@@ -145,15 +147,15 @@ public class FeedbackFragment extends BaseMapFragment implements
 							.parseDouble(bill.getDistance()))))
 							+ " "
 							+ getResources().getString(
-							R.string.text_cost_per_mile));
+							R.string.text_cost_per_km));
 		if (timeCost.equals("0.00")) {
-			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
+			((TextView) m_invoiceDlg.findViewById(R.id.tvBillTimePerHour))
 					.setText(currency
 							+ "0 "
 							+ getResources().getString(
 							R.string.text_cost_per_min));
 		} else
-			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
+			((TextView) m_invoiceDlg.findViewById(R.id.tvBillTimePerHour))
 					.setText(currency
 							+ String.valueOf(perHourFormat.format((Double
 							.parseDouble(bill.getTimeCost()) / Double
@@ -162,69 +164,67 @@ public class FeedbackFragment extends BaseMapFragment implements
 							+ getResources().getString(
 							R.string.text_cost_per_min));
 
-		((TextView) mDialog.findViewById(R.id.adminCost))
+		((TextView) m_invoiceDlg.findViewById(R.id.adminCost))
 				.setText(getResources().getString(R.string.text_cost_for_admin)
 						+ " :    " + currency + " " + secoundry_amount);
 
-		((TextView) mDialog.findViewById(R.id.providercost))
+		((TextView) m_invoiceDlg.findViewById(R.id.providercost))
 				.setText(getResources().getString(
 						R.string.text_cost_for_provider)
 						+ " : " + currency + " " + primary_amount);
 
-		((TextView) mDialog.findViewById(R.id.discounts))
+		((TextView) m_invoiceDlg.findViewById(R.id.discounts))
 				.setText(getResources().getString(R.string.text_discount)
 						+ " :     " + currency + " " + discounts);
 
-		((TextView) mDialog.findViewById(R.id.tvDis1)).setText(currency + " "
+		((TextView) m_invoiceDlg.findViewById(R.id.tvDis1)).setText(currency + " "
 				+ distCostTmp);
 
-		((TextView) mDialog.findViewById(R.id.tvTime1)).setText(currency + " "
+		((TextView) m_invoiceDlg.findViewById(R.id.tvTime1)).setText(currency + " "
 				+ timeCost);
 
-		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " "
+		((TextView) m_invoiceDlg.findViewById(R.id.tvTotal1)).setText(currency + " "
 				+ totalTmp);
 
-		Button btnNotPaid = (Button) mDialog
-				.findViewById(R.id.btnBillNotPaid);
-		btnNotPaid.setVisibility(View.GONE);
-
-		Button btnConfirm = (Button) mDialog
-				.findViewById(R.id.btnBillFinishPayment);
-		btnConfirm.setText("CLOSE");
-		btnConfirm.setOnClickListener(new View.OnClickListener() {
+		Button btnCash = (Button) m_invoiceDlg.findViewById(R.id.btnBillCash);
+		btnCash.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mDialog.dismiss();
+				m_bNotPaid = false;
+				sendFinishPayment(1, bill.getTotal());
+				m_invoiceDlg.dismiss();
 			}
 		});
-//		Button btnFinishPayment = (Button) mDialog.findViewById(R.id.btnBillFinishPayment);
-//		btnFinishPayment.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				sendFinishPayment(1);
-//				mDialog.dismiss();
-//			}
-//		});
-//		Button btnNotPaid = (Button) mDialog.findViewById(R.id.btnBillNotPaid);
-//		btnNotPaid.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				sendFinishPayment(0);
-//				mDialog.dismiss();
-//			}
-//		});
+		Button btnCard = (Button) m_invoiceDlg.findViewById(R.id.btnBillCard);
+		btnCard.setOnClickListener(new View.OnClickListener() {
 
-		mDialog.setCancelable(true);
-		mDialog.show();
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				m_bNotPaid = false;
+				sendFinishPayment(2, bill.getTotal());
+				m_invoiceDlg.dismiss();
+			}
+		});
+		Button btnNotPaid = (Button) m_invoiceDlg.findViewById(R.id.btnBillNotPaid);
+		btnNotPaid.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				m_bNotPaid = true;
+				sendFinishPayment(0, bill.getTotal());
+				m_invoiceDlg.dismiss();
+			}
+		});
+
+		m_invoiceDlg.setCancelable(true);
+		m_invoiceDlg.show();
 	}
 
-	private void sendFinishPayment(int nPayResult) {
+	private void sendFinishPayment(int nPayResult, String total) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.FINISH_PAYMENT);
 		map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
@@ -232,6 +232,7 @@ public class FeedbackFragment extends BaseMapFragment implements
 		map.put(AndyConstants.Params.REQUEST_ID,
 				String.valueOf(PreferenceHelper.getInstance(mapActivity).getRequestId()));
 		map.put(AndyConstants.Params.PAY_RESULT, String.valueOf(nPayResult));
+		map.put(AndyConstants.Params.PAYMENT, total);
 
 		new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.FINISH_PAYMENT, this);
 	}
@@ -254,8 +255,16 @@ public class FeedbackFragment extends BaseMapFragment implements
 
 		case R.id.tvFeedbackskip:
 			PreferenceHelper.getInstance(mapActivity).clearRequestData();
-			mapActivity.addFragment(new ClientRequestFragment(), false,
-					AndyConstants.CLIENT_REQUEST_TAG, true);
+			if(m_bNotPaid) {
+				AndyUtils.showToast(
+						mapActivity.getResources().getString(
+								R.string.text_account_blocked), mapActivity);
+				PreferenceHelper.getInstance(mapActivity).Logout();
+				mapActivity.goToMainActivity();
+			} else {
+				mapActivity.addFragment(new ClientRequestFragment(), false,
+						AndyConstants.CLIENT_REQUEST_TAG, true);
+			}
 
 		default:
 			break;
@@ -293,18 +302,33 @@ public class FeedbackFragment extends BaseMapFragment implements
 	public void onTaskCompleted(String response, int serviceCode) {
 		AndyUtils.removeCustomProgressDialog();
 		switch (serviceCode) {
-		case AndyConstants.ServiceCode.RATING:
-			AppLog.Log(TAG, "rating response" + response);
-			if (parseContent.isSuccess(response)) {
-				PreferenceHelper.getInstance(mapActivity).clearRequestData();
-				AndyUtils.showToast(
-						mapActivity.getResources().getString(
-								R.string.toast_feedback_success), mapActivity);
-				mapActivity.addFragment(new ClientRequestFragment(), false,
-						AndyConstants.CLIENT_REQUEST_TAG, true);
-			}
+			case AndyConstants.ServiceCode.RATING:
+				AppLog.Log(TAG, "rating response" + response);
+				if (parseContent.isSuccess(response)) {
+					PreferenceHelper.getInstance(mapActivity).clearRequestData();
+					if(m_bNotPaid) {
+						AndyUtils.showToast(
+								mapActivity.getResources().getString(
+										R.string.text_account_blocked), mapActivity);
+						PreferenceHelper.getInstance(mapActivity).Logout();
+						mapActivity.goToMainActivity();
+					} else {
+						AndyUtils.showToast(
+								mapActivity.getResources().getString(
+										R.string.toast_feedback_success), mapActivity);
+						mapActivity.addFragment(new ClientRequestFragment(), false,
+								AndyConstants.CLIENT_REQUEST_TAG, true);
+					}
+				}
 
-			break;
+				break;
+			case AndyConstants.ServiceCode.FINISH_PAYMENT:
+				AppLog.Log(TAG, "Finish payment response" + response);
+//				if (parseContent.isSuccess(response)) {
+//					PreferenceHelper.getInstance(mapActivity).clearRequestData();
+//				}
+
+				break;
 
 		default:
 			break;

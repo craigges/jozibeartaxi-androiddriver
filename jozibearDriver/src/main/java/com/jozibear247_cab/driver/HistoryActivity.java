@@ -116,84 +116,6 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 			long arg3) {
 		if (mSeparatorsSet.contains(position))
 			return;
-		// final Dialog mDialog = new Dialog(this,
-		// android.R.style.Theme_Translucent_NoTitleBar);
-		// mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//
-		// mDialog.getWindow().setBackgroundDrawable(
-		// new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		// mDialog.setContentView(R.layout.dialog_bill_layout);
-		// DecimalFormat decimalFormat = new DecimalFormat("000.00");
-		// DecimalFormat perHourFormat = new DecimalFormat("0.0");
-		// History history = historyList.get(position);
-		// String basePrice = String.valueOf(decimalFormat.format(Double
-		// .parseDouble(history.getBasePrice())));
-		// String totalCost = String.valueOf(decimalFormat.format(Double
-		// .parseDouble(history.getTotal())));
-		// String distanceCost = String.valueOf(decimalFormat.format(Double
-		// .parseDouble(history.getDistanceCost())));
-		// String timeCost = String.valueOf(decimalFormat.format(Double
-		// .parseDouble(history.getTimecost())));
-		// ((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
-		// .setText(String.valueOf(perHourFormat.format((Double
-		// .parseDouble(history.getDistanceCost()) / Double
-		// .parseDouble(history.getDistance()))))
-		// + getResources().getString(R.string.text_cost_per_mile));
-		// ((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
-		// .setText(String.valueOf(perHourFormat.format((Double
-		// .parseDouble(history.getTimecost()) / Double
-		// .parseDouble(history.getTime()))))
-		// + getResources().getString(R.string.text_cost_per_hour));
-		// ((TextView) mDialog.findViewById(R.id.tvbase1)).setText(String
-		// .valueOf(basePrice.charAt(0)));
-		// ((TextView) mDialog.findViewById(R.id.tvbase2)).setText(String
-		// .valueOf(basePrice.charAt(1)));
-		// ((TextView) mDialog.findViewById(R.id.tvbase3)).setText(String
-		// .valueOf(basePrice.charAt(2)));
-		// ((TextView) mDialog.findViewById(R.id.tvBaseP1)).setText(String
-		// .valueOf(basePrice.charAt(4)));
-		// ((TextView) mDialog.findViewById(R.id.tvBaseP2)).setText(String
-		// .valueOf(basePrice.charAt(5)));
-		// ((TextView) mDialog.findViewById(R.id.tvDis1)).setText(String
-		// .valueOf(distanceCost.charAt(0)));
-		// ((TextView) mDialog.findViewById(R.id.tvDis2)).setText(String
-		// .valueOf(distanceCost.charAt(1)));
-		// ((TextView) mDialog.findViewById(R.id.tvDis3)).setText(String
-		// .valueOf(distanceCost.charAt(2)));
-		// ((TextView) mDialog.findViewById(R.id.tvDisP1)).setText(String
-		// .valueOf(distanceCost.charAt(4)));
-		// ((TextView) mDialog.findViewById(R.id.tvDisP2)).setText(String
-		// .valueOf(distanceCost.charAt(5)));
-		// ((TextView) mDialog.findViewById(R.id.tvTime1)).setText(String
-		// .valueOf(timeCost.charAt(0)));
-		// ((TextView) mDialog.findViewById(R.id.tvTime2)).setText(String
-		// .valueOf(timeCost.charAt(1)));
-		// ((TextView) mDialog.findViewById(R.id.tvTime3)).setText(String
-		// .valueOf(timeCost.charAt(2)));
-		// ((TextView) mDialog.findViewById(R.id.tvTimeP1)).setText(String
-		// .valueOf(timeCost.charAt(4)));
-		// ((TextView) mDialog.findViewById(R.id.tvTimeP2)).setText(String
-		// .valueOf(timeCost.charAt(5)));
-		// ((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(String
-		// .valueOf(totalCost.charAt(0)));
-		// ((TextView) mDialog.findViewById(R.id.tvTotal2)).setText(String
-		// .valueOf(totalCost.charAt(1)));
-		// ((TextView) mDialog.findViewById(R.id.tvTotal3)).setText(String
-		// .valueOf(totalCost.charAt(2)));
-		// ((TextView) mDialog.findViewById(R.id.tvTotalP1)).setText(String
-		// .valueOf(totalCost.charAt(4)));
-		// ((TextView) mDialog.findViewById(R.id.tvTotalP2)).setText(String
-		// .valueOf(totalCost.charAt(5)));
-		// mDialog.findViewById(R.id.btnBillDialogClose).setOnClickListener(
-		// new View.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// mDialog.dismiss();
-		// }
-		// });
-		// mDialog.setCancelable(true);
-		// mDialog.show();
 		final Dialog mDialog = new Dialog(this,
 				android.R.style.Theme_Translucent_NoTitleBar);
 		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -208,8 +130,8 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		String currency = history.getCurrency();
 		String basePrice = String.valueOf(decimalFormat.format(Double
 				.parseDouble(history.getBasePrice())));
-		String basePricetmp = String.valueOf(decimalFormat.format(Double
-				.parseDouble(basePrice)));
+//		String basePricetmp = String.valueOf(decimalFormat.format(Double
+//				.parseDouble(basePrice)));
 		String totalTmp = String.valueOf(decimalFormat.format(Double
 				.parseDouble(history.getTotal())));
 		String distCostTmp = String.valueOf(decimalFormat.format(Double
@@ -221,9 +143,9 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		String secoundry_amount = String.valueOf(decimalFormat.format(Double
 				.parseDouble(history.getSecoundry_amount())));
 		String discounts = String.valueOf(decimalFormat.format(Math.abs((Double
-				.parseDouble(primary_amount) + Double
-				.parseDouble(secoundry_amount))
-				- (Double.parseDouble(totalTmp)))));
+				.parseDouble(history.getPrimary_amount()) + Double
+				.parseDouble(history.getSecoundry_amount()))
+				- (Double.parseDouble(history.getTotal())))));
 
 		((TextView) mDialog.findViewById(R.id.tvBasePrice)).setText(currency
 				+ " " + basePrice);
@@ -232,7 +154,7 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 					.setText(currency
 							+ "0 "
 							+ getResources().getString(
-									R.string.text_cost_per_mile));
+									R.string.text_cost_per_km));
 		} else
 			((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
 					.setText(currency
@@ -241,7 +163,7 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 									.parseDouble(history.getDistance()))))
 							+ " "
 							+ getResources().getString(
-									R.string.text_cost_per_mile));
+									R.string.text_cost_per_km));
 		if (timeCost.equals("0.00")) {
 			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
 					.setText(currency
@@ -252,7 +174,7 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
 					.setText(currency
 							+ String.valueOf(perHourFormat.format((Double
-									.parseDouble(timeCost) / Double
+									.parseDouble(history.getTimecost()) / Double
 									.parseDouble(history.getTime()))))
 							+ " "
 							+ getResources().getString(
@@ -280,12 +202,15 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " "
 				+ totalTmp);
 
+		Button btnCard = (Button) mDialog
+				.findViewById(R.id.btnBillCard);
+		btnCard.setVisibility(View.GONE);
 		Button btnNotPaid = (Button) mDialog
 				.findViewById(R.id.btnBillNotPaid);
 		btnNotPaid.setVisibility(View.GONE);
 
 		Button btnConfirm = (Button) mDialog
-				.findViewById(R.id.btnBillFinishPayment);
+				.findViewById(R.id.btnBillCash);
 		btnConfirm.setText("CLOSE");
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 

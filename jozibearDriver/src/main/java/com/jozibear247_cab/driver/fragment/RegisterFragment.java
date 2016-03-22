@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,19 +20,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 import com.jozibear247_cab.driver.R;
 import com.jozibear247_cab.driver.adapter.VehicalTypeListAdapter;
 import com.jozibear247_cab.driver.base.BaseRegisterFragment;
@@ -49,14 +40,6 @@ import com.jozibear247_cab.driver.utills.PreferenceHelper;
 import com.jozibear247_cab.driver.widget.MyFontEditTextView;
 import com.jozibear247_cab.driver.widget.MyFontTextView;
 import com.soundcloud.android.crop.Crop;
-import com.sromku.simple.fb.Permission;
-import com.sromku.simple.fb.Permission.Type;
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
-import com.sromku.simple.fb.entities.Profile;
-import com.sromku.simple.fb.entities.Profile.Properties;
-import com.sromku.simple.fb.listeners.OnLoginListener;
-import com.sromku.simple.fb.listeners.OnProfileListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,20 +57,20 @@ import java.util.TimeZone;
  * 
  */
 public class RegisterFragment extends BaseRegisterFragment implements
-		OnClickListener, ConnectionCallbacks, OnConnectionFailedListener,
+		OnClickListener, /*ConnectionCallbacks, OnConnectionFailedListener,*/
 		AsyncTaskCompleteListener {
 	private MyFontEditTextView etRegisterFname, etRegisterLName,
 			etRegisterPassword, etRegisterEmail, etRegisterNumber,
 			etRegisterAddress, etRegisterBio, etRegisterZipcode;
 	private MyFontTextView tvCountryCode;
-	private ImageButton btnFb, btnGplus;
+//	private ImageButton btnFb, btnGplus;
 	private GridView gvTypes;
 	private ImageView ivProfile;
 	private boolean mSignInClicked, mIntentInProgress;
-	private ConnectionResult mConnectionResult;
-	private GoogleApiClient mGoogleApiClient;
+//	private ConnectionResult mConnectionResult;
+//	private GoogleApiClient mGoogleApiClient;
 	private AQuery aQuery;
-	private SimpleFacebook mSimpleFacebook;
+//	private SimpleFacebook mSimpleFacebook;
 	private ParseContent parseContent;
 	private ArrayList<String> countryList;
 	private String country;
@@ -96,7 +79,7 @@ public class RegisterFragment extends BaseRegisterFragment implements
 			socialId, profileImageData = null, socialProPicUrl;
 	private Bitmap profilePicBitmap;
 	private ImageOptions profileImageOptions;
-	private SimpleFacebookConfiguration facebookConfiguration;
+//	private SimpleFacebookConfiguration facebookConfiguration;
 	private ArrayList<VehicalType> listType;
 	private VehicalTypeListAdapter adapter;
 
@@ -107,18 +90,18 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	String[] timezone_display, timezone_value;
 	int timezone_pos = -1;
 
-	Permission[] facebookPermission = new Permission[] { Permission.EMAIL };
+//	Permission[] facebookPermission = new Permission[] { Permission.EMAIL };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View registerFragmentView = inflater.inflate(
 				R.layout.fragment_register, container, false);
-		facebookConfiguration = new SimpleFacebookConfiguration.Builder()
-				.setAppId(getResources().getString(R.string.app_id))
-				.setNamespace(getResources().getString(R.string.app_name))
-				.setPermissions(facebookPermission).build();
-		SimpleFacebook.setConfiguration(facebookConfiguration);
+//		facebookConfiguration = new SimpleFacebookConfiguration.Builder()
+//				.setAppId(getResources().getString(R.string.app_id))
+//				.setNamespace(getResources().getString(R.string.app_name))
+//				.setPermissions(facebookPermission).build();
+//		SimpleFacebook.setConfiguration(facebookConfiguration);
 
 		ivProfile = (ImageView) registerFragmentView
 				.findViewById(R.id.ivRegisterProfile);
@@ -140,10 +123,10 @@ public class RegisterFragment extends BaseRegisterFragment implements
 				.findViewById(R.id.etRegisterZipCode);
 		tvCountryCode = (MyFontTextView) registerFragmentView
 				.findViewById(R.id.tvRegisterCountryCode);
-		btnFb = (ImageButton) registerFragmentView
-				.findViewById(R.id.btnRegisterFb);
-		btnGplus = (ImageButton) registerFragmentView
-				.findViewById(R.id.btnRegisterGplus);
+//		btnFb = (ImageButton) registerFragmentView
+//				.findViewById(R.id.btnRegisterFb);
+//		btnGplus = (ImageButton) registerFragmentView
+//				.findViewById(R.id.btnRegisterGplus);
 		gvTypes = (GridView) registerFragmentView.findViewById(R.id.gvTypes);
 		ettimezone = (MyFontTextView) registerFragmentView
 				.findViewById(R.id.etRegistertimezone);
@@ -160,10 +143,10 @@ public class RegisterFragment extends BaseRegisterFragment implements
 
 		tvCountryCode.setOnClickListener(this);
 		ivProfile.setOnClickListener(this);
-		registerFragmentView.findViewById(R.id.btnRegisterFb)
-				.setOnClickListener(this);
-		registerFragmentView.findViewById(R.id.btnRegisterGplus)
-				.setOnClickListener(this);
+//		registerFragmentView.findViewById(R.id.btnRegisterFb)
+//				.setOnClickListener(this);
+//		registerFragmentView.findViewById(R.id.btnRegisterGplus)
+//				.setOnClickListener(this);
 		registerFragmentView.findViewById(R.id.tvRegisterSubmit)
 				.setOnClickListener(this);
 
@@ -222,20 +205,20 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		}
 
 		getVehicalTypes();
-		// facebook api initialization
-		facebookConfiguration = new SimpleFacebookConfiguration.Builder()
-				.setAppId(getResources().getString(R.string.app_id))
-				.setNamespace(getResources().getString(R.string.app_name))
-				.setPermissions(facebookPermission).build();
-		SimpleFacebook.setConfiguration(facebookConfiguration);
-
-		// Google plus api initialization
-		Scope scope = new Scope(AndyConstants.GOOGLE_API_SCOPE_URL);
-		mGoogleApiClient = new GoogleApiClient.Builder(registerActivity)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.addApi(Plus.API, Plus.PlusOptions.builder().build())
-				.addScope(scope).build();
+//		// facebook api initialization
+//		facebookConfiguration = new SimpleFacebookConfiguration.Builder()
+//				.setAppId(getResources().getString(R.string.app_id))
+//				.setNamespace(getResources().getString(R.string.app_name))
+//				.setPermissions(facebookPermission).build();
+//		SimpleFacebook.setConfiguration(facebookConfiguration);
+//
+//		// Google plus api initialization
+//		Scope scope = new Scope(AndyConstants.GOOGLE_API_SCOPE_URL);
+//		mGoogleApiClient = new GoogleApiClient.Builder(registerActivity)
+//				.addConnectionCallbacks(this)
+//				.addOnConnectionFailedListener(this)
+//				.addApi(Plus.API, Plus.PlusOptions.builder().build())
+//				.addScope(scope).build();
 
 	}
 
@@ -251,59 +234,59 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	public void onClick(View v) {
 		socialProPicUrl = null;
 		switch (v.getId()) {
-		case R.id.btnRegisterFb:
-			if (!mSimpleFacebook.isLogin()) {
-				registerActivity.setFbTag(AndyConstants.REGISTER_FRAGMENT_TAG);
-				mSimpleFacebook.login(new OnLoginListener() {
-
-					@Override
-					public void onFail(String arg0) {
-						Toast.makeText(
-								registerActivity,
-								getResources().getString(
-										R.string.toast_facebook_login_failed),
-								Toast.LENGTH_SHORT).show();
-					}
-
-					@Override
-					public void onException(Throwable arg0) {
-					}
-
-					@Override
-					public void onThinking() {
-					}
-
-					@Override
-					public void onNotAcceptingPermissions(Type arg0) {
-						AppLog.Log("UBER",
-								String.format(
-										"You didn't accept %s permissions",
-										arg0.name()));
-					}
-
-					@Override
-					public void onLogin() {
-						// Toast.makeText(registerActivity, "Facebook Success",
-						// Toast.LENGTH_SHORT).show();
-					}
-				});
-			} else {
-				getFbProfile();
-			}
-			break;
+//		case R.id.btnRegisterFb:
+//			if (!mSimpleFacebook.isLogin()) {
+//				registerActivity.setFbTag(AndyConstants.REGISTER_FRAGMENT_TAG);
+//				mSimpleFacebook.login(new OnLoginListener() {
+//
+//					@Override
+//					public void onFail(String arg0) {
+//						Toast.makeText(
+//								registerActivity,
+//								getResources().getString(
+//										R.string.toast_facebook_login_failed),
+//								Toast.LENGTH_SHORT).show();
+//					}
+//
+//					@Override
+//					public void onException(Throwable arg0) {
+//					}
+//
+//					@Override
+//					public void onThinking() {
+//					}
+//
+//					@Override
+//					public void onNotAcceptingPermissions(Type arg0) {
+//						AppLog.Log("UBER",
+//								String.format(
+//										"You didn't accept %s permissions",
+//										arg0.name()));
+//					}
+//
+//					@Override
+//					public void onLogin() {
+//						// Toast.makeText(registerActivity, "Facebook Success",
+//						// Toast.LENGTH_SHORT).show();
+//					}
+//				});
+//			} else {
+//				getFbProfile();
+//			}
+//			break;
 
 		case R.id.ivRegisterProfile:
 			showPictureDialog();
 			break;
 
-		case R.id.btnRegisterGplus:
-			mSignInClicked = true;
-			if (!mGoogleApiClient.isConnecting()) {
-				AndyUtils.showCustomProgressDialog(registerActivity, "",
-						getString(R.string.progress_getting_info), false);
-				mGoogleApiClient.connect();
-			}
-			break;
+//		case R.id.btnRegisterGplus:
+//			mSignInClicked = true;
+//			if (!mGoogleApiClient.isConnecting()) {
+//				AndyUtils.showCustomProgressDialog(registerActivity, "",
+//						getString(R.string.progress_getting_info), false);
+//				mGoogleApiClient.connect();
+//			}
+//			break;
 
 		case R.id.tvRegisterSubmit:
 			onRegisterButtonClick();
@@ -452,72 +435,72 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		pictureDialog.show();
 	}
 
-	private void resolveSignInError() {
-		if (mConnectionResult.hasResolution()) {
-			try {
-				mIntentInProgress = true;
-				registerActivity.startIntentSenderForResult(mConnectionResult
-						.getResolution().getIntentSender(), RC_SIGN_IN, null,
-						0, 0, 0, AndyConstants.REGISTER_FRAGMENT_TAG);
-			} catch (SendIntentException e) {
-				/*
-				 * The intent was canceled before it was sent. Return to the
-				 * default state and attempt to connect to get an updated
-				 * ConnectionResult.
-				 */
-				mIntentInProgress = false;
-				mGoogleApiClient.connect();
-			}
-		}
-	}
+//	private void resolveSignInError() {
+//		if (mConnectionResult.hasResolution()) {
+//			try {
+//				mIntentInProgress = true;
+//				registerActivity.startIntentSenderForResult(mConnectionResult
+//						.getResolution().getIntentSender(), RC_SIGN_IN, null,
+//						0, 0, 0, AndyConstants.REGISTER_FRAGMENT_TAG);
+//			} catch (SendIntentException e) {
+//				/*
+//				 * The intent was canceled before it was sent. Return to the
+//				 * default state and attempt to connect to get an updated
+//				 * ConnectionResult.
+//				 */
+//				mIntentInProgress = false;
+//				mGoogleApiClient.connect();
+//			}
+//		}
+//	}
 
-	@Override
-	public void onConnectionFailed(ConnectionResult result) {
-		if (!mIntentInProgress) {
-			mConnectionResult = result;
-			if (mSignInClicked) {
-				resolveSignInError();
-			}
-		}
-
-	}
-
-	private void getFbProfile() {
-		AndyUtils.showCustomProgressDialog(registerActivity, "",
-				getString(R.string.text_getting_info_facebook), true);
-		Profile.Properties properties = new Profile.Properties.Builder()
-				.add(Properties.ID).add(Properties.FIRST_NAME)
-				.add(Properties.GENDER).add(Properties.EMAIL)
-				.add(Properties.LAST_NAME).add(Properties.BIRTHDAY)
-				.add(Properties.EDUCATION).add(Properties.PICTURE).build();
-
-		mSimpleFacebook.getProfile(properties, new OnProfileListener() {
-			@Override
-			public void onComplete(Profile profile) {
-				AndyUtils.removeCustomProgressDialog();
-				AppLog.Log("Uber", "My profile id = " + profile.getId());
-				btnFb.setEnabled(false);
-				btnGplus.setEnabled(false);
-				etRegisterEmail.setText(profile.getEmail());
-				etRegisterFname.setText(profile.getFirstName());
-				etRegisterLName.setText(profile.getLastName());
-				socialId = profile.getId();
-				loginType = AndyConstants.SOCIAL_FACEBOOK;
-				// etRegisterPassword.setEnabled(false);
-				etRegisterPassword.setVisibility(View.GONE);
-
-				if (!TextUtils.isEmpty(profile.getPicture())
-						|| !profile.getPicture().equalsIgnoreCase("null")) {
-					socialProPicUrl = profile.getPicture();
-					aQuery.id(ivProfile).image(profile.getPicture(),
-							profileImageOptions);
-				} else {
-					socialProPicUrl = null;
-				}
-
-			}
-		});
-	}
+//	@Override
+//	public void onConnectionFailed(ConnectionResult result) {
+//		if (!mIntentInProgress) {
+//			mConnectionResult = result;
+//			if (mSignInClicked) {
+//				resolveSignInError();
+//			}
+//		}
+//
+//	}
+//
+//	private void getFbProfile() {
+//		AndyUtils.showCustomProgressDialog(registerActivity, "",
+//				getString(R.string.text_getting_info_facebook), true);
+//		Profile.Properties properties = new Profile.Properties.Builder()
+//				.add(Properties.ID).add(Properties.FIRST_NAME)
+//				.add(Properties.GENDER).add(Properties.EMAIL)
+//				.add(Properties.LAST_NAME).add(Properties.BIRTHDAY)
+//				.add(Properties.EDUCATION).add(Properties.PICTURE).build();
+//
+//		mSimpleFacebook.getProfile(properties, new OnProfileListener() {
+//			@Override
+//			public void onComplete(Profile profile) {
+//				AndyUtils.removeCustomProgressDialog();
+//				AppLog.Log("Uber", "My profile id = " + profile.getId());
+//				btnFb.setEnabled(false);
+//				btnGplus.setEnabled(false);
+//				etRegisterEmail.setText(profile.getEmail());
+//				etRegisterFname.setText(profile.getFirstName());
+//				etRegisterLName.setText(profile.getLastName());
+//				socialId = profile.getId();
+//				loginType = AndyConstants.SOCIAL_FACEBOOK;
+//				// etRegisterPassword.setEnabled(false);
+//				etRegisterPassword.setVisibility(View.GONE);
+//
+//				if (!TextUtils.isEmpty(profile.getPicture())
+//						|| !profile.getPicture().equalsIgnoreCase("null")) {
+//					socialProPicUrl = profile.getPicture();
+//					aQuery.id(ivProfile).image(profile.getPicture(),
+//							profileImageOptions);
+//				} else {
+//					socialProPicUrl = null;
+//				}
+//
+//			}
+//		});
+//	}
 
 	public void onItemClick(int pos) {
 		selectedTypePostion = pos;
@@ -534,11 +517,11 @@ public class RegisterFragment extends BaseRegisterFragment implements
 				mSignInClicked = false;
 			}
 
-			mIntentInProgress = false;
-
-			if (!mGoogleApiClient.isConnecting()) {
-				mGoogleApiClient.connect();
-			}
+//			mIntentInProgress = false;
+//
+//			if (!mGoogleApiClient.isConnecting()) {
+//				mGoogleApiClient.connect();
+//			}
 		} else if (requestCode == AndyConstants.CHOOSE_PHOTO) {
 			if (data != null) {
 
@@ -590,17 +573,17 @@ public class RegisterFragment extends BaseRegisterFragment implements
 			AppLog.Log(TAG, "Crop photo on activity result");
 			handleCrop(resultCode, data);
 		} else {
-			mSimpleFacebook.onActivityResult(registerActivity, requestCode,
-					resultCode, data);
-			if (mSimpleFacebook.isLogin()) {
-				getFbProfile();
-			} else {
-				Toast.makeText(
-						registerActivity,
-						registerActivity.getResources().getString(
-								R.string.toast_facebook_login_failed),
-						Toast.LENGTH_SHORT).show();
-			}
+//			mSimpleFacebook.onActivityResult(registerActivity, requestCode,
+//					resultCode, data);
+//			if (mSimpleFacebook.isLogin()) {
+//				getFbProfile();
+//			} else {
+//				Toast.makeText(
+//						registerActivity,
+//						registerActivity.getResources().getString(
+//								R.string.toast_facebook_login_failed),
+//						Toast.LENGTH_SHORT).show();
+//			}
 		}
 	}
 
@@ -647,42 +630,42 @@ public class RegisterFragment extends BaseRegisterFragment implements
 				AndyConstants.TAKE_PHOTO, AndyConstants.REGISTER_FRAGMENT_TAG);
 	}
 
-	@Override
-	public void onConnected(Bundle arg0) {
-		AndyUtils.removeCustomProgressDialog();
-		String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-		Person currentPerson = Plus.PeopleApi
-				.getCurrentPerson(mGoogleApiClient);
-
-		String personName = currentPerson.getDisplayName();
-		String personPhoto = currentPerson.getImage().toString();
-
-		btnGplus.setEnabled(false);
-		btnFb.setEnabled(false);
-		etRegisterEmail.setText(email);
-		if (personName.contains(" ")) {
-			String[] split = personName.split(" ");
-			etRegisterFname.setText(split[0]);
-			etRegisterLName.setText(split[1]);
-		} else {
-			etRegisterFname.setText(personName);
-		}
-
-		// etRegisterPassword.setEnabled(false);
-		etRegisterPassword.setVisibility(View.GONE);
-		if (!TextUtils.isEmpty(personPhoto)
-				|| !personPhoto.equalsIgnoreCase("null")) {
-			socialProPicUrl = personPhoto;
-			aQuery.id(ivProfile).image(personPhoto, profileImageOptions);
-		} else {
-			socialProPicUrl = null;
-		}
-
-		socialId = currentPerson.getId();
-		loginType = AndyConstants.SOCIAL_GOOGLE;
-		// etRegisterPassword.setEnabled(false);
-		etRegisterPassword.setVisibility(View.GONE);
-	}
+//	@Override
+//	public void onConnected(Bundle arg0) {
+//		AndyUtils.removeCustomProgressDialog();
+//		String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+//		Person currentPerson = Plus.PeopleApi
+//				.getCurrentPerson(mGoogleApiClient);
+//
+//		String personName = currentPerson.getDisplayName();
+//		String personPhoto = currentPerson.getImage().toString();
+//
+//		btnGplus.setEnabled(false);
+//		btnFb.setEnabled(false);
+//		etRegisterEmail.setText(email);
+//		if (personName.contains(" ")) {
+//			String[] split = personName.split(" ");
+//			etRegisterFname.setText(split[0]);
+//			etRegisterLName.setText(split[1]);
+//		} else {
+//			etRegisterFname.setText(personName);
+//		}
+//
+//		// etRegisterPassword.setEnabled(false);
+//		etRegisterPassword.setVisibility(View.GONE);
+//		if (!TextUtils.isEmpty(personPhoto)
+//				|| !personPhoto.equalsIgnoreCase("null")) {
+//			socialProPicUrl = personPhoto;
+//			aQuery.id(ivProfile).image(personPhoto, profileImageOptions);
+//		} else {
+//			socialProPicUrl = null;
+//		}
+//
+//		socialId = currentPerson.getId();
+//		loginType = AndyConstants.SOCIAL_GOOGLE;
+//		// etRegisterPassword.setEnabled(false);
+//		etRegisterPassword.setVisibility(View.GONE);
+//	}
 
 	private void register(String type, String id) {
 
@@ -736,48 +719,48 @@ public class RegisterFragment extends BaseRegisterFragment implements
 			new MultiPartRequester(registerActivity, map,
 					AndyConstants.ServiceCode.REGISTER, this);
 		} else {
-			registerSoicial(id, type);
+//			registerSoicial(id, type);
 		}
 	}
 
-	private void registerSoicial(String id, String loginType) {
-		AppLog.Log(TAG, "Register social method");
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put(AndyConstants.URL, AndyConstants.ServiceType.REGISTER);
-		map.put(AndyConstants.Params.FIRSTNAME, etRegisterFname.getText()
-				.toString());
-		map.put(AndyConstants.Params.LAST_NAME, etRegisterLName.getText()
-				.toString());
-		map.put(AndyConstants.Params.ADDRESS, etRegisterAddress.getText()
-				.toString());
-		map.put(AndyConstants.Params.EMAIL, etRegisterEmail.getText()
-				.toString());
-		map.put(AndyConstants.Params.PHONE, tvCountryCode.getText().toString()
-				.trim()
-				+ etRegisterNumber.getText().toString());
-		map.put(AndyConstants.Params.PICTURE, profileImageData);
-		map.put(AndyConstants.Params.STATE, "");
-		map.put(AndyConstants.Params.TYPE,
-				String.valueOf(listType.get(selectedTypePostion).getId()));
-		map.put(AndyConstants.Params.COUNTRY, "");
-		map.put(AndyConstants.Params.BIO, etRegisterBio.getText().toString());
-		map.put(AndyConstants.Params.DEVICE_TYPE,
-				AndyConstants.DEVICE_TYPE_ANDROID);
-		map.put(AndyConstants.Params.DEVICE_TOKEN, PreferenceHelper.getInstance(
-				registerActivity).getDeviceToken());
-		map.put(AndyConstants.Params.ZIPCODE, etRegisterZipcode.getText()
-				.toString().trim());
-		map.put(AndyConstants.Params.SOCIAL_UNIQUE_ID, id);
-		map.put(AndyConstants.Params.LOGIN_BY, loginType);
-		// if (!TextUtils.isEmpty(ettimezone.getText()) && timezone_pos != -1)
-		map.put(AndyConstants.Params.TIMEZONE, timezone_value[timezone_pos]);
-		new MultiPartRequester(registerActivity, map,
-				AndyConstants.ServiceCode.REGISTER, this);
-	}
-
-	@Override
-	public void onConnectionSuspended(int arg0) {
-	}
+//	private void registerSoicial(String id, String loginType) {
+//		AppLog.Log(TAG, "Register social method");
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put(AndyConstants.URL, AndyConstants.ServiceType.REGISTER);
+//		map.put(AndyConstants.Params.FIRSTNAME, etRegisterFname.getText()
+//				.toString());
+//		map.put(AndyConstants.Params.LAST_NAME, etRegisterLName.getText()
+//				.toString());
+//		map.put(AndyConstants.Params.ADDRESS, etRegisterAddress.getText()
+//				.toString());
+//		map.put(AndyConstants.Params.EMAIL, etRegisterEmail.getText()
+//				.toString());
+//		map.put(AndyConstants.Params.PHONE, tvCountryCode.getText().toString()
+//				.trim()
+//				+ etRegisterNumber.getText().toString());
+//		map.put(AndyConstants.Params.PICTURE, profileImageData);
+//		map.put(AndyConstants.Params.STATE, "");
+//		map.put(AndyConstants.Params.TYPE,
+//				String.valueOf(listType.get(selectedTypePostion).getId()));
+//		map.put(AndyConstants.Params.COUNTRY, "");
+//		map.put(AndyConstants.Params.BIO, etRegisterBio.getText().toString());
+//		map.put(AndyConstants.Params.DEVICE_TYPE,
+//				AndyConstants.DEVICE_TYPE_ANDROID);
+//		map.put(AndyConstants.Params.DEVICE_TOKEN, PreferenceHelper.getInstance(
+//				registerActivity).getDeviceToken());
+//		map.put(AndyConstants.Params.ZIPCODE, etRegisterZipcode.getText()
+//				.toString().trim());
+//		map.put(AndyConstants.Params.SOCIAL_UNIQUE_ID, id);
+//		map.put(AndyConstants.Params.LOGIN_BY, loginType);
+//		// if (!TextUtils.isEmpty(ettimezone.getText()) && timezone_pos != -1)
+//		map.put(AndyConstants.Params.TIMEZONE, timezone_value[timezone_pos]);
+//		new MultiPartRequester(registerActivity, map,
+//				AndyConstants.ServiceCode.REGISTER, this);
+//	}
+//
+//	@Override
+//	public void onConnectionSuspended(int arg0) {
+//	}
 
 	@Override
 	public void onTaskCompleted(String response, int serviceCode) {
@@ -862,9 +845,9 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (mGoogleApiClient.isConnected()) {
-			mGoogleApiClient.disconnect();
-		}
+//		if (mGoogleApiClient.isConnected()) {
+//			mGoogleApiClient.disconnect();
+//		}
 	}
 
 	@Override
@@ -887,7 +870,7 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	public void onResume() {
 		super.onResume();
 		registerActivity.currentFragment = AndyConstants.REGISTER_FRAGMENT_TAG;
-		mSimpleFacebook = SimpleFacebook.getInstance(registerActivity);
+//		mSimpleFacebook = SimpleFacebook.getInstance(registerActivity);
 	}
 
 	private void beginCrop(Uri source) {

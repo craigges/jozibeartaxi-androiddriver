@@ -54,6 +54,7 @@ public class AndyConstants {
 		private static final String HOST_URL = "http://www.jozibear247.com/";
 		private static final String BASE_URL = HOST_URL + "provider/";
 		public static final String LOGIN = BASE_URL + "login";
+		public static final String LOGOUT = BASE_URL + "logout";
 		public static final String REGISTER = BASE_URL + "register";
 		public static final String GET_ALL_REQUESTS = BASE_URL + "getrequests?";
 		public static final String RESPOND_REQUESTS = BASE_URL
@@ -106,6 +107,7 @@ public class AndyConstants {
 		public static final int TOGGLE_STATE = 20;
 		public static final int PATH_REQUEST = 21;
 		public static final int FINISH_PAYMENT = 22;
+		public static final int LOGOUT = 23;
 	}
 
 	// webservice key constants
@@ -163,5 +165,6 @@ public class AndyConstants {
 		public static final String START_TIME = "start_time";
 		public static final String TIMEZONE="timezone";
 		public static final String PAY_RESULT = "pay_result";
+		public static final String PAYMENT = "payment";
 	}
 }
