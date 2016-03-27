@@ -292,7 +292,7 @@ abstract public class ActionBarBaseActivitiy extends ActionBarActivity
 
 	}
 
-	protected void goToMainActivity() {
+	public void goToMainActivity() {
 		Intent i = new Intent(this, MainActivity.class);
 
 		startActivity(i);

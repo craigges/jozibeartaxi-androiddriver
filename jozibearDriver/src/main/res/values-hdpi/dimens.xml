@@ -84,8 +84,8 @@
 
     <!-- Menu -->
 
-    <dimen name="menu_img_width">100dp</dimen>
-    <dimen name="menu_img_height">100dp</dimen>
+    <dimen name="menu_img_width">105dp</dimen>
+    <dimen name="menu_img_height">105dp</dimen>
 
     <!-- Grid View -->
     <dimen name="gridview_height">280dp</dimen>

@@ -26,12 +26,10 @@ dependencies {
     compile project(':circularImageView')
     compile project(':cropLibrary')
     compile project(':devsmartAndroid')
-    compile project(':googleplayservices_lib_new')
     compile project(':library_pinnlistivew')
     compile project(':menudrawer')
     compile project(':stripeLibrary')
     compile project(':androidswitchbackport')
-    compile project(':facebookSDK')
     compile 'com.google.android.gms:play-services:6.1.+'
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('libs/android-query.0.26.7.jar')
@@ -41,6 +39,5 @@ dependencies {
     compile files('libs/httpcore-4.3.2.jar')
     compile files('libs/httpmime-4.3.5.jar')
     compile files('libs/gcm.jar')
-    compile files('libs/simple.facebook-2.1.jar')
     compile files('libs/mint-4.4.0.jar')
 }
