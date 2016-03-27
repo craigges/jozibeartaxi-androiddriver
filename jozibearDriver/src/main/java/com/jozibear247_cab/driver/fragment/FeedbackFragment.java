@@ -132,37 +132,22 @@ public class FeedbackFragment extends BaseMapFragment implements
 
 		((TextView) m_invoiceDlg.findViewById(R.id.tvBasePrice)).setText(currency
 				+ " " + basePrice);
-		if (distCostTmp.equals("0.00")) {
-			((TextView) m_invoiceDlg.findViewById(R.id.tvBillDistancePerMile))
-					.setText(currency
-							+ "0 "
-							+ getResources().getString(
-							R.string.text_cost_per_km));
-		} else
-			((TextView) m_invoiceDlg.findViewById(R.id.tvBillDistancePerMile))
-					.setText(currency
-
-							+ String.valueOf(perHourFormat.format((Double
-							.parseDouble(bill.getDistanceCost()) / Double
-							.parseDouble(bill.getDistance()))))
-							+ " "
-							+ getResources().getString(
-							R.string.text_cost_per_km));
-		if (timeCost.equals("0.00")) {
-			((TextView) m_invoiceDlg.findViewById(R.id.tvBillTimePerHour))
-					.setText(currency
-							+ "0 "
-							+ getResources().getString(
-							R.string.text_cost_per_min));
-		} else
-			((TextView) m_invoiceDlg.findViewById(R.id.tvBillTimePerHour))
-					.setText(currency
-							+ String.valueOf(perHourFormat.format((Double
-							.parseDouble(bill.getTimeCost()) / Double
-							.parseDouble(bill.getTime()))))
-							+ " "
-							+ getResources().getString(
-							R.string.text_cost_per_min));
+		((TextView) m_invoiceDlg.findViewById(R.id.tvBillDistancePerMile))
+				.setText(currency
+						+ " "
+						+ String.valueOf(decimalFormat.format(Double
+						.parseDouble(bill.getPricePerUnitDistance())))
+						+ " "
+						+ getResources().getString(
+						R.string.text_cost_per_km));
+		((TextView) m_invoiceDlg.findViewById(R.id.tvBillTimePerHour))
+				.setText(currency
+						+ " "
+						+ String.valueOf(decimalFormat.format(Double
+						.parseDouble(bill.getPricePerUnitTime())))
+						+ " "
+						+ getResources().getString(
+						R.string.text_cost_per_min));
 
 		((TextView) m_invoiceDlg.findViewById(R.id.adminCost))
 				.setText(getResources().getString(R.string.text_cost_for_admin)
@@ -177,14 +162,9 @@ public class FeedbackFragment extends BaseMapFragment implements
 				.setText(getResources().getString(R.string.text_discount)
 						+ " :     " + currency + " " + discounts);
 
-		((TextView) m_invoiceDlg.findViewById(R.id.tvDis1)).setText(currency + " "
-				+ distCostTmp);
-
-		((TextView) m_invoiceDlg.findViewById(R.id.tvTime1)).setText(currency + " "
-				+ timeCost);
-
-		((TextView) m_invoiceDlg.findViewById(R.id.tvTotal1)).setText(currency + " "
-				+ totalTmp);
+		((TextView) m_invoiceDlg.findViewById(R.id.tvDis1)).setText(currency + " "+ distCostTmp);
+		((TextView) m_invoiceDlg.findViewById(R.id.tvTime1)).setText(currency + " "+ timeCost);
+		((TextView) m_invoiceDlg.findViewById(R.id.tvTotal1)).setText(currency + " "+ totalTmp);
 
 		Button btnCash = (Button) m_invoiceDlg.findViewById(R.id.btnBillCash);
 		btnCash.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +236,12 @@ public class FeedbackFragment extends BaseMapFragment implements
 		case R.id.tvFeedbackskip:
 			PreferenceHelper.getInstance(mapActivity).clearRequestData();
 			if(m_bNotPaid) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
+				map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
+				map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
+				new HttpRequester(mapActivity, map,
+						AndyConstants.ServiceCode.LOGOUT, true, this);
 				AndyUtils.showToast(
 						mapActivity.getResources().getString(
 								R.string.text_account_blocked), mapActivity);
@@ -307,6 +293,15 @@ public class FeedbackFragment extends BaseMapFragment implements
 				if (parseContent.isSuccess(response)) {
 					PreferenceHelper.getInstance(mapActivity).clearRequestData();
 					if(m_bNotPaid) {
+						HashMap<String, String> map = new HashMap<String, String>();
+						map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
+						map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
+						map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
+						new HttpRequester(mapActivity, map,
+								AndyConstants.ServiceCode.LOGOUT, true, this);
+						AndyUtils.showToast(
+								mapActivity.getResources().getString(
+										R.string.text_account_blocked), mapActivity);
 						AndyUtils.showToast(
 								mapActivity.getResources().getString(
 										R.string.text_account_blocked), mapActivity);

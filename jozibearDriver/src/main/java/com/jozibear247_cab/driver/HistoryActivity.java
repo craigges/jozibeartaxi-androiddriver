@@ -149,36 +149,20 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 
 		((TextView) mDialog.findViewById(R.id.tvBasePrice)).setText(currency
 				+ " " + basePrice);
-		if (distCostTmp.equals("0.00")) {
-			((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
-					.setText(currency
-							+ "0 "
-							+ getResources().getString(
-									R.string.text_cost_per_km));
-		} else
-			((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
-					.setText(currency
-							+ String.valueOf(perHourFormat.format((Double
-									.parseDouble(history.getDistanceCost()) / Double
-									.parseDouble(history.getDistance()))))
-							+ " "
-							+ getResources().getString(
-									R.string.text_cost_per_km));
-		if (timeCost.equals("0.00")) {
-			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
-					.setText(currency
-							+ "0 "
-							+ getResources().getString(
-									R.string.text_cost_per_min));
-		} else
-			((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
-					.setText(currency
-							+ String.valueOf(perHourFormat.format((Double
-									.parseDouble(history.getTimecost()) / Double
-									.parseDouble(history.getTime()))))
-							+ " "
-							+ getResources().getString(
-									R.string.text_cost_per_min));
+		((TextView) mDialog.findViewById(R.id.tvBillDistancePerMile))
+				.setText(currency + " "
+						+ String.valueOf(decimalFormat.format(Double
+						.parseDouble(history.getPricePerUnitDistance())))
+						+ " "
+						+ getResources().getString(
+						R.string.text_cost_per_km));
+		((TextView) mDialog.findViewById(R.id.tvBillTimePerHour))
+				.setText(currency + " "
+						+ String.valueOf(decimalFormat.format(Double
+						.parseDouble(history.getPricePerUnitTime())))
+						+ " "
+						+ getResources().getString(
+						R.string.text_cost_per_min));
 
 		((TextView) mDialog.findViewById(R.id.adminCost))
 				.setText(getResources().getString(R.string.text_cost_for_admin)
@@ -193,24 +177,16 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 				.setText(getResources().getString(R.string.text_discount)
 						+ " :     " + currency + " " + discounts);
 
-		((TextView) mDialog.findViewById(R.id.tvDis1)).setText(currency + " "
-				+ distCostTmp);
+		((TextView) mDialog.findViewById(R.id.tvDis1)).setText(currency + " " + distCostTmp);
+		((TextView) mDialog.findViewById(R.id.tvTime1)).setText(currency + " " + timeCost);
+		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " " + totalTmp);
 
-		((TextView) mDialog.findViewById(R.id.tvTime1)).setText(currency + " "
-				+ timeCost);
-
-		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " "
-				+ totalTmp);
-
-		Button btnCard = (Button) mDialog
-				.findViewById(R.id.btnBillCard);
+		Button btnCard = (Button) mDialog.findViewById(R.id.btnBillCard);
 		btnCard.setVisibility(View.GONE);
-		Button btnNotPaid = (Button) mDialog
-				.findViewById(R.id.btnBillNotPaid);
+		Button btnNotPaid = (Button) mDialog.findViewById(R.id.btnBillNotPaid);
 		btnNotPaid.setVisibility(View.GONE);
 
-		Button btnConfirm = (Button) mDialog
-				.findViewById(R.id.btnBillCash);
+		Button btnConfirm = (Button) mDialog.findViewById(R.id.btnBillCash);
 		btnConfirm.setText("CLOSE");
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 
@@ -244,7 +220,6 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 				final Calendar cal = Calendar.getInstance();
 
 				parseContent.parseHistory(response, historyList);
-
 				Collections.sort(historyList, new Comparator<History>() {
 					@Override
 					public int compare(History o1, History o2) {
@@ -254,7 +229,6 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 						try {
 							// date1 = dateFormat.parse(o1.getDate());
 							// date2 = dateFormat.parse(o2.getDate());
-
 							String firstStrDate = o1.getDate();
 							String secondStrDate = o2.getDate();
 
@@ -271,26 +245,21 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 							e.printStackTrace();
 						}
 						return 0;
-
 					}
 				});
 				HashSet<Date> listToSet = new HashSet<Date>();
-
 				for (int i = 0; i < historyList.size(); i++) {
 					AppLog.Log("date", historyList.get(i).getDate() + "");
 					if (listToSet.add(sdf.parse(historyList.get(i).getDate()))) {
 						dateList.add(sdf.parse(historyList.get(i).getDate()));
 					}
-
 				}
 
 				for (int i = 0; i < dateList.size(); i++) {
-
 					cal.setTime(dateList.get(i));
 					History item = new History();
 					item.setDate(sdf.format(dateList.get(i)));
 					historyListOrg.add(item);
-
 					mSeparatorsSet.add(historyListOrg.size() - 1);
 					for (int j = 0; j < historyList.size(); j++) {
 						Calendar messageTime = Calendar.getInstance();
@@ -304,7 +273,6 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 				if (historyList.size() > 0) {
 					lvHistory.setVisibility(View.VISIBLE);
 					tvEmptyHistory.setVisibility(View.GONE);
-
 				} else {
 					lvHistory.setVisibility(View.GONE);
 					tvEmptyHistory.setVisibility(View.VISIBLE);

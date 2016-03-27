@@ -16,8 +16,8 @@ public class AndyConstants {
 	public static final int TAKE_PHOTO = 113;
 	public static final String URL = "url";
 	public static final String DEVICE_TYPE_ANDROID = "android";
-	public static final String SOCIAL_FACEBOOK = "facebook";
-	public static final String SOCIAL_GOOGLE = "google";
+//	public static final String SOCIAL_FACEBOOK = "facebook";
+//	public static final String SOCIAL_GOOGLE = "google";
 	public static final String MANUAL = "manual";
 	public static final String GOOGLE_API_SCOPE_URL = "https://www.googleapis.com/auth/plus.login";
 	public static final long DELAY = 0;
@@ -57,18 +57,12 @@ public class AndyConstants {
 		public static final String LOGOUT = BASE_URL + "logout";
 		public static final String REGISTER = BASE_URL + "register";
 		public static final String GET_ALL_REQUESTS = BASE_URL + "getrequests?";
-		public static final String RESPOND_REQUESTS = BASE_URL
-				+ "respondrequest";
-		public static final String UPDATE_PROVIDER_LOCATION = BASE_URL
-				+ "location";
-		public static final String CHECK_REQUEST_STATUS = BASE_URL
-				+ "getrequest?";
-		public static final String REQUEST_IN_PROGRESS = BASE_URL
-				+ "requestinprogress?";
-		public static final String WALKER_STARTED = BASE_URL
-				+ "requestwalkerstarted";
-		public static final String WALK_ARRIVED = BASE_URL
-				+ "requestwalkerarrived";
+		public static final String RESPOND_REQUESTS = BASE_URL + "respondrequest";
+		public static final String UPDATE_PROVIDER_LOCATION = BASE_URL + "location";
+		public static final String CHECK_REQUEST_STATUS = BASE_URL + "getrequest?";
+		public static final String REQUEST_IN_PROGRESS = BASE_URL + "requestinprogress?";
+		public static final String WALKER_STARTED = BASE_URL + "requestwalkerstarted";
+		public static final String WALK_ARRIVED = BASE_URL + "requestwalkerarrived";
 		public static final String WALK_STARTED = BASE_URL + "requestwalkstarted";
 		public static final String WALK_COMPLETED = BASE_URL + "requestwalkcompleted";
 		public static final String FINISH_PAYMENT = BASE_URL + "finish_payment";
@@ -79,8 +73,7 @@ public class AndyConstants {
 		public static final String REQUEST_LOCATION_UPDATE = HOST_URL + "request/location";
 		public static final String CHECK_STATE = BASE_URL + "checkstate?";
 		public static final String TOGGLE_STATE = BASE_URL + "togglestate";
-		public static final String FORGET_PASSWORD = HOST_URL
-				+ "application/forgot-password";
+		public static final String FORGET_PASSWORD = HOST_URL + "application/forgot-password";
 		public static final String GET_VEHICAL_TYPES = HOST_URL + "application/types";
 		public static final String APPLICATION_PAGES = HOST_URL + "application/pages";
 	}
@@ -155,6 +148,8 @@ public class AndyConstants {
 		public static final String IS_ACTIVE = "is_active";
 		public static final String ICON = "icon";
 		public static final String TYPE = "type";
+		public static final String PRICE_PER_UNIT_DISTANCE = "price_per_unit_distance";
+		public static final String PRICE_PER_UNIT_TIME = "price_per_unit_time";
 		public static final String DISTANCE_COST = "distance_cost";
 		public static final String TIME_COST = "time_cost";
 		public static final String TOTAL = "total";

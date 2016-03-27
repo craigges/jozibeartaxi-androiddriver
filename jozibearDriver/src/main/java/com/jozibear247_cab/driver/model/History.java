@@ -15,7 +15,7 @@ import java.util.Date;
 public class History {
 
 	private int id;
-	private String date, distance, time, basePrice, distanceCost, timecost,
+	private String date, distance, time, basePrice, pricePerUnitDistance, pricePerUnitTime, distanceCost, timecost,
 			total, firstName, lastName, phone, email, picture, bio, currency,
 			primary_amount, secoundry_amount;
 
@@ -93,6 +93,22 @@ public class History {
 	 */
 	public void setBasePrice(String basePrice) {
 		this.basePrice = basePrice;
+	}
+
+	public String getPricePerUnitDistance() {
+		return pricePerUnitDistance;
+	}
+
+	public void setPricePerUnitDistance(String pricePerUnitDistance) {
+		this.pricePerUnitDistance = pricePerUnitDistance;
+	}
+
+	public String getPricePerUnitTime() {
+		return pricePerUnitTime;
+	}
+
+	public void setPricePerUnitTime(String pricePerUnitTime) {
+		this.pricePerUnitTime = pricePerUnitTime;
 	}
 
 	/**

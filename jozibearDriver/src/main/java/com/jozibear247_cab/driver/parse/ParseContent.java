@@ -231,16 +231,15 @@ public class ParseContent {
 			}
 			if (result) {
 				JSONObject billObject = jsonObject.getJSONObject("bill");
-				bill.setBasePrice(billObject.getString(BASE_PRICE));
-				bill.setDistance(billObject
-						.getString(AndyConstants.Params.DISTANCE));
-				bill.setUnit(billObject.getString("unit"));
-				bill.setTime(billObject.getString(AndyConstants.Params.TIME));
-				bill.setDistanceCost(billObject
-						.getString(AndyConstants.Params.DISTANCE_COST));
-				bill.setTimeCost(billObject
-						.getString(AndyConstants.Params.TIME_COST));
 				bill.setCurrency(billObject.getString(CURRENCY));
+				bill.setUnit(billObject.getString("unit"));
+				bill.setDistance(billObject.getString(AndyConstants.Params.DISTANCE));
+				bill.setTime(billObject.getString(AndyConstants.Params.TIME));
+				bill.setBasePrice(billObject.getString(BASE_PRICE));
+				bill.setPricePerUnitDistance(billObject.getString(AndyConstants.Params.PRICE_PER_UNIT_DISTANCE));
+				bill.setPricePerUnitTime(billObject.getString(AndyConstants.Params.PRICE_PER_UNIT_TIME));
+				bill.setDistanceCost(billObject.getString(AndyConstants.Params.DISTANCE_COST));
+				bill.setTimeCost(billObject.getString(AndyConstants.Params.TIME_COST));
 				bill.setTotal(billObject.getString("actual_total"));
 
 				JSONObject walkerObject = billObject.getJSONObject("walker");
@@ -749,43 +748,30 @@ public class ParseContent {
 						JSONObject object = jsonArray.getJSONObject(i);
 						History history = new History();
 						history.setId(object.getInt(AndyConstants.Params.ID));
-						history.setDate(object
-								.getString(AndyConstants.Params.DATE));
-						history.setDistance(object
-								.getString(AndyConstants.Params.DISTANCE));
-						history.setTime(object
-								.getString(AndyConstants.Params.TIME));
-						history.setBasePrice(object.getString(BASE_PRICE));
-						history.setDistanceCost(object
-								.getString(AndyConstants.Params.DISTANCE_COST));
+						history.setDate(object.getString(AndyConstants.Params.DATE));
+						history.setDistance(object.getString(AndyConstants.Params.DISTANCE));
+						history.setTime(object.getString(AndyConstants.Params.TIME));
 						history.setCurrency(object.getString(CURRENCY));
-						history.setTimecost(object
-								.getString(AndyConstants.Params.TIME_COST));
-						history.setTotal(new DecimalFormat("0.00").format(Double
-								.parseDouble(object
-										.getString(AndyConstants.Params.TOTAL))));
-						JSONObject ja_primary = object.getJSONObject("walker");
+						history.setBasePrice(object.getString(BASE_PRICE));
+						history.setPricePerUnitDistance(object.getString(AndyConstants.Params.PRICE_PER_UNIT_DISTANCE));
+						history.setPricePerUnitTime(object.getString(AndyConstants.Params.PRICE_PER_UNIT_TIME));
+						history.setDistanceCost(object.getString(AndyConstants.Params.DISTANCE_COST));
+						history.setTimecost(object.getString(AndyConstants.Params.TIME_COST));
+						history.setTotal(object.getString(AndyConstants.Params.TOTAL));
 
-						history.setPrimary_amount(ja_primary
-								.getString("amount"));
+						JSONObject ja_primary = object.getJSONObject("walker");
+						history.setPrimary_amount(ja_primary.getString("amount"));
 
 						JSONObject ja_secoundry = object.getJSONObject("admin");
-						history.setSecoundry_amount(ja_secoundry
-								.getString("amount"));
-						JSONObject userObject = object
-								.getJSONObject(AndyConstants.Params.OWNER);
-						history.setFirstName(userObject
-								.getString(AndyConstants.Params.FIRSTNAME));
-						history.setLastName(userObject
-								.getString(AndyConstants.Params.LAST_NAME));
-						history.setPhone(userObject
-								.getString(AndyConstants.Params.PHONE));
-						history.setPicture(userObject
-								.getString(AndyConstants.Params.PICTURE));
-						history.setEmail(userObject
-								.getString(AndyConstants.Params.EMAIL));
-						history.setBio(userObject
-								.getString(AndyConstants.Params.BIO));
+						history.setSecoundry_amount(ja_secoundry.getString("amount"));
+
+						JSONObject userObject = object.getJSONObject(AndyConstants.Params.OWNER);
+						history.setFirstName(userObject.getString(AndyConstants.Params.FIRSTNAME));
+						history.setLastName(userObject.getString(AndyConstants.Params.LAST_NAME));
+						history.setPhone(userObject.getString(AndyConstants.Params.PHONE));
+						history.setPicture(userObject.getString(AndyConstants.Params.PICTURE));
+						history.setEmail(userObject.getString(AndyConstants.Params.EMAIL));
+						history.setBio(userObject.getString(AndyConstants.Params.BIO));
 						list.add(history);
 					}
 				}
