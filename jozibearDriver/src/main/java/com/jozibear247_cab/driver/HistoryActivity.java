@@ -181,8 +181,8 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		((TextView) mDialog.findViewById(R.id.tvTime1)).setText(currency + " " + timeCost);
 		((TextView) mDialog.findViewById(R.id.tvTotal1)).setText(currency + " " + totalTmp);
 
-		Button btnCard = (Button) mDialog.findViewById(R.id.btnBillCard);
-		btnCard.setVisibility(View.GONE);
+//		Button btnCard = (Button) mDialog.findViewById(R.id.btnBillCard);
+//		btnCard.setVisibility(View.GONE);
 		Button btnNotPaid = (Button) mDialog.findViewById(R.id.btnBillNotPaid);
 		btnNotPaid.setVisibility(View.GONE);
 

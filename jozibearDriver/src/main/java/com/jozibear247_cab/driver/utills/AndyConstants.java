@@ -49,7 +49,6 @@ public class AndyConstants {
 		// http://provenlogic.com/taxinow/
 		// private static final String HOST_URL =
 		// "http://uberforxapi.provenlogic.com/";
-//		private static final String HOST_URL = "http://52.25.104.97/";
 //		private static final String HOST_URL = "http://52.49.122.63/";
 		private static final String HOST_URL = "http://www.jozibear247.com/";
 		private static final String BASE_URL = HOST_URL + "provider/";

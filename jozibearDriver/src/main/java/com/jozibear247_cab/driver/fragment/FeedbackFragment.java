@@ -177,17 +177,17 @@ public class FeedbackFragment extends BaseMapFragment implements
 				m_invoiceDlg.dismiss();
 			}
 		});
-		Button btnCard = (Button) m_invoiceDlg.findViewById(R.id.btnBillCard);
-		btnCard.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				m_bNotPaid = false;
-				sendFinishPayment(2, bill.getTotal());
-				m_invoiceDlg.dismiss();
-			}
-		});
+//		Button btnCard = (Button) m_invoiceDlg.findViewById(R.id.btnBillCard);
+//		btnCard.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				m_bNotPaid = false;
+//				sendFinishPayment(2, bill.getTotal());
+//				m_invoiceDlg.dismiss();
+//			}
+//		});
 		Button btnNotPaid = (Button) m_invoiceDlg.findViewById(R.id.btnBillNotPaid);
 		btnNotPaid.setOnClickListener(new View.OnClickListener() {
 
@@ -236,17 +236,7 @@ public class FeedbackFragment extends BaseMapFragment implements
 		case R.id.tvFeedbackskip:
 			PreferenceHelper.getInstance(mapActivity).clearRequestData();
 			if(m_bNotPaid) {
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
-				map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
-				map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
-				new HttpRequester(mapActivity, map,
-						AndyConstants.ServiceCode.LOGOUT, true, this);
-				AndyUtils.showToast(
-						mapActivity.getResources().getString(
-								R.string.text_account_blocked), mapActivity);
-				PreferenceHelper.getInstance(mapActivity).Logout();
-				mapActivity.goToMainActivity();
+				blockAccount();
 			} else {
 				mapActivity.addFragment(new ClientRequestFragment(), false,
 						AndyConstants.CLIENT_REQUEST_TAG, true);
@@ -284,6 +274,23 @@ public class FeedbackFragment extends BaseMapFragment implements
 				this);
 	}
 
+	public void blockAccount() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
+		map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
+		map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
+		new HttpRequester(mapActivity, map,
+				AndyConstants.ServiceCode.LOGOUT, true, this);
+		AndyUtils.showToast(
+				mapActivity.getResources().getString(
+						R.string.text_account_blocked), mapActivity);
+		AndyUtils.showToast(
+				mapActivity.getResources().getString(
+						R.string.text_account_blocked), mapActivity);
+		PreferenceHelper.getInstance(mapActivity).Logout();
+		mapActivity.goToMainActivity();
+	}
+
 	@Override
 	public void onTaskCompleted(String response, int serviceCode) {
 		AndyUtils.removeCustomProgressDialog();
@@ -293,20 +300,7 @@ public class FeedbackFragment extends BaseMapFragment implements
 				if (parseContent.isSuccess(response)) {
 					PreferenceHelper.getInstance(mapActivity).clearRequestData();
 					if(m_bNotPaid) {
-						HashMap<String, String> map = new HashMap<String, String>();
-						map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
-						map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
-						map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
-						new HttpRequester(mapActivity, map,
-								AndyConstants.ServiceCode.LOGOUT, true, this);
-						AndyUtils.showToast(
-								mapActivity.getResources().getString(
-										R.string.text_account_blocked), mapActivity);
-						AndyUtils.showToast(
-								mapActivity.getResources().getString(
-										R.string.text_account_blocked), mapActivity);
-						PreferenceHelper.getInstance(mapActivity).Logout();
-						mapActivity.goToMainActivity();
+						blockAccount();
 					} else {
 						AndyUtils.showToast(
 								mapActivity.getResources().getString(

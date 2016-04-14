@@ -291,16 +291,16 @@
                         android:textColor="@color/white"
                         android:layout_marginRight="1dp" />
 
-                    <com.jozibear247_cab.driver.widget.MyFontButton
-                        android:id="@+id/btnBillCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_bill"
-                        android:text="@string/text_pay_by_card"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="1dp" />
+                    <!--<com.jozibear247_cab.driver.widget.MyFontButton-->
+                        <!--android:id="@+id/btnBillCard"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/btn_bill"-->
+                        <!--android:text="@string/text_pay_by_card"-->
+                        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:layout_marginLeft="1dp" />-->
 
                     <com.jozibear247_cab.driver.widget.MyFontButton
                         android:id="@+id/btnBillNotPaid"
