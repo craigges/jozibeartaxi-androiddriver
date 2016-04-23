@@ -191,6 +191,7 @@
     <string name="progress_getting_history">Getting History....</string>
     <string name="progress_getting_avaibility">Getting Availability....</string>
     <string name="progress_changing_avaibilty">Changing Availability....</string>
+    <string name="progress_logout">Waiting logout....</string>
 
     <!-- location -->
     <string name="connection_error_code">Connection failure error code: %1$d</string>

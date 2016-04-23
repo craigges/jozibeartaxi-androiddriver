@@ -62,9 +62,11 @@ public class ParseContent {
 	}
 
 	/**
-	 * @param applicationContext
-	 */
-
+	 *
+	 * @param response
+	 * @param routeBean
+     * @return
+     */
 	public BeanRoute parseRoute(String response, BeanRoute routeBean) {
 
 		try {
@@ -180,7 +182,6 @@ public class ParseContent {
 						activity);
 				return false;
 			}
-
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -201,6 +202,29 @@ public class ParseContent {
 			}
 			if (!result) {
 				AndyUtils.showToast(jsonObject.getString(KEY_ERROR), activity);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			result = false;
+		}
+
+		return result;
+	}
+
+	public boolean isSuccessLong(String response) {
+		if (TextUtils.isEmpty(response))
+			return false;
+		JSONObject jsonObject = null;
+		boolean result = true;
+		try {
+			jsonObject = new JSONObject(response);
+			try {
+				result = jsonObject.getInt(KEY_SUCCESS) == 1 ? true : false;
+			} catch (Exception e) {
+				result = jsonObject.getBoolean(KEY_SUCCESS);
+			}
+			if (!result) {
+				AndyUtils.showToastLong(jsonObject.getString(KEY_ERROR), activity);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -358,13 +382,14 @@ public class ParseContent {
 				if (!TextUtils.isEmpty(time)) {
 					try {
 						TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-						Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-								Locale.ENGLISH).parse(time);
+//						Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+//								Locale.US).parse(time);
+						Date date = new Date(time);
 						AppLog.Log("TAG", "START DATE---->" + date.toString()
 								+ " month:" + date.getMonth());
 						PreferenceHelper.getInstance(activity).putRequestTime(date.getTime());
 						requestDetail.setStartTime(date.getTime());
-					} catch (ParseException e) {
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -385,6 +410,10 @@ public class ParseContent {
 						.getString(AndyConstants.Params.LATITUDE));
 				requestDetail.setClientLongitude(ownerDetailObject
 						.getString(AndyConstants.Params.LONGITUDE));
+				if(ownerDetailObject.has(AndyConstants.Params.DEST_LATITUDE) && !ownerDetailObject.getString(AndyConstants.Params.DEST_LATITUDE).isEmpty()) {
+					requestDetail.setClient_d_latitude(ownerDetailObject.getString(AndyConstants.Params.DEST_LATITUDE));
+					requestDetail.setClient_d_longitude(ownerDetailObject.getString(AndyConstants.Params.DEST_LONGITUDE));
+				}
 				if(object.has("unit")) {
 					requestDetail.setUnit(object.getString("unit"));
 				} else {

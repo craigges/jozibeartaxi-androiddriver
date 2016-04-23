@@ -275,20 +275,14 @@ public class FeedbackFragment extends BaseMapFragment implements
 	}
 
 	public void blockAccount() {
+		AndyUtils.showToastLong(mapActivity.getResources().getString(
+						R.string.text_account_blocked), mapActivity);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
 		map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(mapActivity).getUserId());
 		map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(mapActivity).getSessionToken());
 		new HttpRequester(mapActivity, map,
 				AndyConstants.ServiceCode.LOGOUT, true, this);
-		AndyUtils.showToast(
-				mapActivity.getResources().getString(
-						R.string.text_account_blocked), mapActivity);
-		AndyUtils.showToast(
-				mapActivity.getResources().getString(
-						R.string.text_account_blocked), mapActivity);
-		PreferenceHelper.getInstance(mapActivity).Logout();
-		mapActivity.goToMainActivity();
 	}
 
 	@Override
@@ -316,6 +310,11 @@ public class FeedbackFragment extends BaseMapFragment implements
 //				if (parseContent.isSuccess(response)) {
 //					PreferenceHelper.getInstance(mapActivity).clearRequestData();
 //				}
+
+				break;
+			case AndyConstants.ServiceCode.LOGOUT:
+				PreferenceHelper.getInstance(mapActivity).Logout();
+				mapActivity.goToMainActivity();
 
 				break;
 

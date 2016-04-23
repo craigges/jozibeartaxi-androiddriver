@@ -407,8 +407,8 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// continue with delete
-									checkState();
-
+//									checkState();
+									logout();
 								}
 							})
 					.setNegativeButton("CANCEL",
@@ -684,6 +684,17 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 				goToMainActivity();
 			}
 			break;
+		case AndyConstants.ServiceCode.LOGOUT:
+				AndyUtils.removeCustomProgressDialog();
+				if (!parseContent.isSuccess(response)) {
+					Toast.makeText(this, "Could not logout.Please try again",
+							Toast.LENGTH_LONG).show();
+					return;
+				} else {
+					PreferenceHelper.getInstance(this).Logout();
+					goToMainActivity();
+				}
+				break;
 		default:
 			break;
 		}
@@ -765,6 +776,22 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 						+ PreferenceHelper.getInstance(this).getSessionToken());
 		new HttpRequester(this, map, AndyConstants.ServiceCode.CHECK_STATE,
 				true, this);
+	}
+
+	private void logout() {
+		if (!AndyUtils.isNetworkAvailable(this)) {
+			AndyUtils.showToast(
+					getResources().getString(R.string.toast_no_internet), this);
+			return;
+		}
+		AndyUtils.showCustomProgressDialog(this, "",
+				getResources().getString(R.string.progress_logout),
+				false);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
+		map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(this).getUserId());
+		map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(this).getSessionToken());
+		new HttpRequester(this, map, AndyConstants.ServiceCode.LOGOUT, false, this);
 	}
 
 }
