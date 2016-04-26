@@ -246,6 +246,9 @@ public class LocationHelper implements LocationListener,
 				public View getInfoWindow(Marker marker) {
 					View v = mapActivity.getLayoutInflater().inflate(
 							R.layout.info_window_layout, null);
+					if(marker.getTitle().equalsIgnoreCase("Destination")) {
+						v.setBackground(v.getResources().getDrawable(R.drawable.pin_dest_detail_bg));
+					}
 					MyFontTextView title = (MyFontTextView) v
 							.findViewById(R.id.markerBubblePickMeUp);
 					MyFontTextView content = (MyFontTextView) v

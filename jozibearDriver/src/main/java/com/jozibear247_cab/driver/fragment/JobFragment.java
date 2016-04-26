@@ -830,7 +830,7 @@ public class JobFragment extends BaseMapFragment implements
 												Double.parseDouble(requestDetail
 														.getClient_d_longitude())))
 								.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.pin_client))
+										.fromResource(R.drawable.pin_client_dest))
 								.title("Destination"));
 				//markerClient_d_location.setSnippet("Destination");
 				markerClient_d_location.showInfoWindow();
