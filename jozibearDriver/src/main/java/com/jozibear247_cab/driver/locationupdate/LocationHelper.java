@@ -304,7 +304,6 @@ public class LocationHelper implements LocationListener,
 				Address address = list.get(0);
 				StringBuilder sb = new StringBuilder();
 				if (address.getAddressLine(0) != null) {
-
 					sb.append(address.getAddressLine(0)).append(", ");
 				}
 				sb.append(address.getLocality()).append(", ");
@@ -316,17 +315,12 @@ public class LocationHelper implements LocationListener,
 				strAddress = strAddress.replace("null", "");
 				strAddress = strAddress.replace("Unnamed", "");
 				if (!TextUtils.isEmpty(strAddress)) {
-
 					et.setText(strAddress);
-
 				}
 			}
-			Log.d("hey", strAddress);
-
 		} catch (IOException exc) {
 			exc.printStackTrace();
 		}
-
 	}
 
 	public void initPreviousDrawPath(ArrayList<LatLng> points) {

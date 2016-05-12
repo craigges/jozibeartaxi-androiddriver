@@ -125,6 +125,8 @@ public class ClientRequestFragment extends BaseMapFragment implements
 		locationHelper.setLocationReceiveListener(this);
 		locationHelper.setUpMap();
 		locationHelper.onStart();
+
+		isAccepted = false;
 	}
 
 	@Override
@@ -294,7 +296,7 @@ public class ClientRequestFragment extends BaseMapFragment implements
 		case R.id.btnClientReject:
 			isAccepted = false;
 			cancelSeekbarTimer();
-			respondRequest(0);
+			respondRequest(2);
 			selector = false;
 			break;
 		case R.id.btnMyLocation:
@@ -393,6 +395,7 @@ public class ClientRequestFragment extends BaseMapFragment implements
 									.image(requestDetail.getClientProfile());
 
 					markerClientLocation = null;
+
 					markerClientLocation = locationHelper.getGoogleMap().addMarker(new MarkerOptions()
 							.position(
 									new LatLng(Double.parseDouble(requestDetail
@@ -492,7 +495,8 @@ public class ClientRequestFragment extends BaseMapFragment implements
 			AndyUtils.showToast(
 					mapActivity.getResources().getString(
 							R.string.toast_time_over), mapActivity);
-			respondRequest(0);
+			isAccepted = false;
+			respondRequest(3);
 			setComponentInvisible();
 			PreferenceHelper.getInstance(mapActivity).clearRequestData();
 			if (markerClientLocation != null

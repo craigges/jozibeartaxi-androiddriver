@@ -148,6 +148,16 @@ public class JobFragment extends BaseMapFragment implements
 		locationHelper.onStart();
 
 		// getDistance();
+		if(jobStatus >= AndyConstants.IS_WALK_STARTED) {
+			showDestinationMarkerWindow();
+			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
+					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
+							.getClient_d_latitude()),
+							Double.parseDouble(requestDetail
+									.getClient_d_longitude())), 12));
+		} else {
+			showLocationMarkerWindow();
+		}
 	}
 
 	/**
@@ -210,21 +220,6 @@ public class JobFragment extends BaseMapFragment implements
 			break;
 		default:
 			break;
-		}
-		if(jobStatus >= AndyConstants.IS_WALK_STARTED) {
-			markerClient_d_location.showInfoWindow();
-			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
-					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
-							.getClient_d_latitude()),
-							Double.parseDouble(requestDetail
-									.getClient_d_longitude())), 12));
-		} else {
-			markerClientLocation.showInfoWindow();
-			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
-					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
-							.getClientLatitude()),
-							Double.parseDouble(requestDetail
-									.getClientLongitude())), 12));
 		}
 	}
 
@@ -603,7 +598,7 @@ public class JobFragment extends BaseMapFragment implements
 				jobStatus = AndyConstants.IS_WALK_STARTED;
 				setjobStatus(jobStatus);
 			}
-			markerClient_d_location.showInfoWindow();
+			showDestinationMarkerWindow();
 			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
 					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
 							.getClient_d_latitude()),
@@ -812,12 +807,38 @@ public class JobFragment extends BaseMapFragment implements
 		}
 	}
 
-	@Override
-	public void onLocationReceived(LatLng latlong) {
-		if (locationHelper.getGoogleMap() == null) {
-			return;
+	private void showLocationMarkerWindow() {
+		if (markerClientLocation == null) {
+			if (requestDetail.getClientLatitude() != null
+					&& requestDetail.getClientLongitude() != null) {
+				markerClientLocation = locationHelper.getGoogleMap().addMarker(new MarkerOptions()
+						.position(
+								new LatLng(Double.parseDouble(requestDetail
+										.getClientLatitude()), Double
+										.parseDouble(requestDetail
+												.getClientLongitude()))).icon(
+								BitmapDescriptorFactory
+										.fromResource(R.drawable.pin_client)));
+				if (jobStatus == AndyConstants.IS_WALK_COMPLETED) {
+					markerClientLocation.setTitle(mapActivity.getResources()
+							.getString(R.string.job_start_location));
+				} else {
+					markerClientLocation.setTitle(mapActivity.getResources()
+							.getString(R.string.client_location));
+				}
+				markerClientLocation.showInfoWindow();
+			}
+		} else {
+			markerClientLocation.showInfoWindow();
 		}
+		locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
+				.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
+						.getClientLatitude()), Double
+						.parseDouble(requestDetail
+								.getClientLongitude())), 14));
+	}
 
+	private void showDestinationMarkerWindow() {
 		if (markerClient_d_location == null) {
 			if (requestDetail.getClient_d_latitude() != null
 					&& requestDetail.getClient_d_longitude() != null) {
@@ -832,35 +853,23 @@ public class JobFragment extends BaseMapFragment implements
 								.icon(BitmapDescriptorFactory
 										.fromResource(R.drawable.pin_client_dest))
 								.title("Destination"));
-				//markerClient_d_location.setSnippet("Destination");
 				markerClient_d_location.showInfoWindow();
 			}
+		} else {
+			markerClient_d_location.showInfoWindow();
+		}
+	}
+
+	@Override
+	public void onLocationReceived(LatLng latlong) {
+		if (locationHelper.getGoogleMap() == null) {
+			return;
 		}
 
-		if (markerClientLocation == null && jobStatus < AndyConstants.IS_WALK_STARTED) {
-			markerClientLocation = locationHelper.getGoogleMap().addMarker(new MarkerOptions()
-					.position(
-							new LatLng(Double.parseDouble(requestDetail
-									.getClientLatitude()), Double
-									.parseDouble(requestDetail
-											.getClientLongitude()))).icon(
-							BitmapDescriptorFactory
-									.fromResource(R.drawable.pin_client)));
-			if (jobStatus == AndyConstants.IS_WALK_COMPLETED) {
-				markerClientLocation.setTitle(mapActivity.getResources()
-						.getString(R.string.job_start_location));
-			} else {
-				markerClientLocation.setTitle(mapActivity.getResources()
-						.getString(R.string.client_location));
-				locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
-						.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
-								.getClientLatitude()), Double
-								.parseDouble(requestDetail
-										.getClientLongitude())), 14));
-			}
-//			markerClientLocation.setSnippet(mapActivity.getResources()
-//					.getString(R.string.job_start_location));
-			markerClientLocation.showInfoWindow();
+		showDestinationMarkerWindow();
+
+		if (jobStatus < AndyConstants.IS_WALK_STARTED) {
+			showLocationMarkerWindow();
 		}
 
 		if (latlong != null) {
