@@ -611,8 +611,7 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 	@Override
 	public void onTaskCompleted(String response, int serviceCode) {
 		AndyUtils.removeCustomProgressDialog();
-		Log.d("xxx", response);
-		AppLog.Log(TAG, response);
+//		AppLog.Log(TAG, response);
 		switch (serviceCode) {
 		case AndyConstants.ServiceCode.UPDATE_PROFILE:
 			if (!parseContent.isSuccess(response)) {

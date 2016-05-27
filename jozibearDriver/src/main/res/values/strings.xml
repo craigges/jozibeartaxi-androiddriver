@@ -79,7 +79,7 @@
     <string name="text_yesterday">YESTERDAY</string>
     <string name="text_select_service">SELECT TYPE OF CAR YOU DRIVE</string>
     <string name="text_forgot_password">Your password would be mailed to your registered email</string>
-    <string name="text_account_blocked">Your account has been blocked. Please contact support@jozibear247.com for a prompt resulution!</string>
+    <string name="text_account_blocked">Your account has been blocked. Please contact jozibear247@gmail.com for a prompt resulution!</string>
 
     <!-- facebook app id -->
     <string name="app_id">1647541992163067</string>

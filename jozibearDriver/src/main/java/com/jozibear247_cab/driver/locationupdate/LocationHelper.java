@@ -373,7 +373,11 @@ public class LocationHelper implements LocationListener,
 	}
 
 	private void startPeriodicUpdates() {
-		mLocationClient.requestLocationUpdates(mLocationRequest, this);
+		try {
+			mLocationClient.requestLocationUpdates(mLocationRequest, this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
