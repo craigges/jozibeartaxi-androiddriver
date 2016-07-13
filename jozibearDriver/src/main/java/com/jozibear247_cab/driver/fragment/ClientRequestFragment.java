@@ -346,7 +346,13 @@ public class ClientRequestFragment extends BaseMapFragment implements
 			locationHelper.onStop();
 		}
 		stopCheckingUpcomingRequests();
-		cancelSeekbarTimer();
+
+		if (seekbarTimer != null) {
+			isAccepted = false;
+			cancelSeekbarTimer();
+			respondRequest(2);
+		}
+
 		AndyUtils.removeCustomProgressDialog();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(
 				requestReciever);
