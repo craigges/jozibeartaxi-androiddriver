@@ -584,23 +584,24 @@ public class ParseContent {
 //				DBHelper dbHelper = new DBHelper(activity);
 				user.setUserId(jsonObject.getInt(AndyConstants.Params.ID));
 				user.setEmail(jsonObject.optString(AndyConstants.Params.EMAIL));
-				user.setFname(jsonObject
-						.getString(AndyConstants.Params.FIRSTNAME));
-				user.setLname(jsonObject
-						.getString(AndyConstants.Params.LAST_NAME));
+				user.setFname(jsonObject.getString(AndyConstants.Params.FIRSTNAME));
+				user.setLname(jsonObject.getString(AndyConstants.Params.LAST_NAME));
 
-				user.setAddress(jsonObject
-						.getString(AndyConstants.Params.ADDRESS));
+				user.setAddress(jsonObject.getString(AndyConstants.Params.ADDRESS));
 				user.setBio(jsonObject.getString(AndyConstants.Params.BIO));
-				user.setZipcode(jsonObject
-						.getString(AndyConstants.Params.ZIPCODE));
-				user.setPicture(jsonObject
-						.getString(AndyConstants.Params.PICTURE));
-				user.setContact(jsonObject
-						.getString(AndyConstants.Params.PHONE));
-				user.setTimezone(jsonObject
-						.getString(AndyConstants.Params.TIMEZONE));
+				user.setZipcode(jsonObject.getString(AndyConstants.Params.ZIPCODE));
+				user.setPicture(jsonObject.getString(AndyConstants.Params.PICTURE));
+				user.setContact(jsonObject.getString(AndyConstants.Params.PHONE));
+				user.setTimezone(jsonObject.getString(AndyConstants.Params.TIMEZONE));
 				user.setEmailActivation(jsonObject.getInt(AndyConstants.Params.EMAIL_ACTIVATION));
+
+				user.setMake(jsonObject.getString(AndyConstants.Params.MAKE));
+				user.setModel(jsonObject.getString(AndyConstants.Params.MODEL));
+				user.setCity(jsonObject.getString(AndyConstants.Params.CITY));
+				user.setColor(jsonObject.getString(AndyConstants.Params.COLOR));
+				user.setRegno(jsonObject.getString(AndyConstants.Params.REGNO));
+				user.setPictureCar(jsonObject.getString(AndyConstants.Params.PICTURE_CAR));
+
 				DBHelper.getInstance(activity).createUser(user);
 
 			} else {

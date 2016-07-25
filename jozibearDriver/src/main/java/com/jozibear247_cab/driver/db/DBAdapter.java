@@ -31,6 +31,13 @@ public class DBAdapter {
 	private static final String KEY_PICTURE = "picture";
 	private static final String KEY_ZIP_CODE = "zip_code";
 	private static final String KEY_TIME_ZONE="timezone";
+	private static final String KEY_MAKE="make";
+	private static final String KEY_MODEL="model";
+	private static final String KEY_CITY="city";
+	private static final String KEY_COLOR="color";
+	private static final String KEY_REG_NO="reg_no";
+	private static final String KEY_PICTURE_CAR="picture_car";
+
 
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "UberClientForX";
@@ -44,13 +51,26 @@ public class DBAdapter {
 			+ " text not null," + KEY_LON + " text not null);";
 
 	private static final String TABLE_CREATE_USER = "create table "
-			+ USER_TABLE + "( " + KEY_ROWID
-			+ " integer primary key autoincrement," + KEY_USER_ID
-			+ " integer not null," + KEY_FIRST_NAME + " text not null,"
-			+ KEY_LAST_NAME + " text not null," + KEY_EMAIL + " text not null,"
-			+ KEY_CONTACT + " text not null," + KEY_PICTURE + " text not null,"
-			+ KEY_BIO + " text," + KEY_ADDRESS + " text," + KEY_ZIP_CODE
-			+ " text,"+ KEY_TIME_ZONE + " text);";
+			+ USER_TABLE + "( " +
+			KEY_ROWID	+ " integer primary key autoincrement," +
+			KEY_USER_ID + " integer not null," +
+			KEY_FIRST_NAME + " text not null," +
+			KEY_LAST_NAME + " text not null," +
+			KEY_EMAIL + " text not null," +
+			KEY_CONTACT + " text not null," +
+			KEY_PICTURE + " text not null," +
+			KEY_BIO + " text," +
+			KEY_ADDRESS + " text," +
+			KEY_ZIP_CODE + " text," +
+			KEY_TIME_ZONE + " text, " +
+
+			KEY_MAKE + " text, " +
+			KEY_MODEL + " text, " +
+			KEY_CITY + " text, " +
+			KEY_COLOR + " text, " +
+			KEY_REG_NO + " text, " +
+			KEY_PICTURE_CAR + " text " +
+			");";
 
 	private DatabaseHelper DBhelper;
 	private SQLiteDatabase db;
@@ -163,6 +183,13 @@ public class DBAdapter {
 		values.put(KEY_BIO, user.getBio());
 		values.put(KEY_PICTURE, user.getPicture());
 		values.put(KEY_TIME_ZONE,user.getTimezone());
+
+		values.put(KEY_MAKE,user.getMake());
+		values.put(KEY_MODEL,user.getModel());
+		values.put(KEY_CITY,user.getCity());
+		values.put(KEY_COLOR,user.getColor());
+		values.put(KEY_REG_NO,user.getRegno());
+		values.put(KEY_PICTURE_CAR,user.getPictureCar());
 		return db.insert(USER_TABLE, null, values);
 	}
 
@@ -183,6 +210,12 @@ public class DBAdapter {
 			user.setAddress(cursor.getString(8));
 			user.setZipcode(cursor.getString(9));
 			user.setTimezone(cursor.getString(10));
+			user.setMake(cursor.getString(11));
+			user.setModel(cursor.getString(12));
+			user.setCity(cursor.getString(13));
+			user.setColor(cursor.getString(14));
+			user.setRegno(cursor.getString(15));
+			user.setPictureCar(cursor.getString(16));
 			cursor.close();
 		}
 

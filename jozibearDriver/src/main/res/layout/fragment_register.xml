@@ -26,16 +26,43 @@
                 android:paddingTop="@dimen/activity_vertical_margin" >
 
                 <!-- <include layout="@layout/ub__view" /> -->
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/ivRegisterProfile"
-                    android:layout_width="@dimen/menu_img_width"
-                    android:layout_height="@dimen/menu_img_height"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:src="@drawable/user"
-                    app:border_color="@color/white"
-                    app:border_width="3dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/ivRegisterProfile"
+                            android:layout_width="@dimen/menu_img_width"
+                            android:layout_height="@dimen/menu_img_height"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:layout_marginBottom = "@dimen/activity_vertical_margin"
+                            android:src="@drawable/user"
+                            app:border_color="@color/white"
+                            app:border_width="3dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1">
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                                android:id="@+id/ivRegisterCar"
+                                android:layout_width="@dimen/menu_img_width"
+                                android:layout_height="@dimen/menu_img_height"
+                                android:layout_marginTop="@dimen/activity_vertical_margin"
+                                android:layout_marginBottom = "@dimen/activity_vertical_margin"
+                                android:src="@drawable/car"
+                                app:border_color="@color/white"
+                                app:border_width="3dp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -196,6 +223,97 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/color_text_dark"
                         android:textColorHint="@color/light_gray" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontEditTextView
+                        android:id="@+id/etRegisterMake"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:background="@drawable/bg_edittext"
+                        android:ems="10"
+                        android:hint="@string/text_make"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_text_dark" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontEditTextView
+                        android:id="@+id/etRegisterModel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:background="@drawable/bg_edittext"
+                        android:ems="10"
+                        android:hint="@string/text_model"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_text_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="horizontal" >
+                        <com.jozibear247_cab.driver.widget.MyFontEditTextView
+                            android:id="@+id/etRegisterColor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.7"
+                            android:background="@drawable/bg_edittext"
+                            android:ems="10"
+                            android:hint="@string/text_color"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:singleLine="true"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/color_text_dark"
+                            android:editable="false"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/bg_rect"
+                            android:layout_margin="5dp">
+                            <com.jozibear247_cab.driver.widget.MyFontTextView
+                                android:id="@+id/tvRegisterColor"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.jozibear247_cab.driver.widget.MyFontEditTextView
+                        android:id="@+id/etRegisterNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:background="@drawable/bg_edittext"
+                        android:ems="10"
+                        android:hint="@string/text_reg_no"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_text_dark" />
+
+                    <com.jozibear247_cab.driver.widget.MyFontEditTextView
+                        android:id="@+id/etRegisterCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:background="@drawable/bg_edittext"
+                        android:ems="10"
+                        android:hint="@string/text_city"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_text_dark" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

@@ -7,13 +7,18 @@
     <string name="text_fname">FIRST NAME</string>
     <string name="text_lname">LAST NAME</string>
     <string name="text_email">EMAIL</string>
-    <string name="text_number">NUMBER</string>
+    <string name="text_number">PHONE</string>
     <string name="text_passs">PASSWORD</string>
     <string name="text_address">ADDRESS</string>
     <string name="time_zone">TIME ZONE</string>
     <string name="text_bio">BIO</string>
     <string name="text_license">LICENSE PLATE NO:</string>
     <string name="text_zip">ZIPCODE</string>
+    <string name="text_make">MAKE</string>
+    <string name="text_model">MODEL</string>
+    <string name="text_color">COLOR</string>
+    <string name="text_reg_no">REGIST NUMBER</string>
+    <string name="text_city">CITY</string>
     <string name="text_google">GOOGLE</string>
     <string name="text_facebook">FACEBOOK</string>
     <string name="text_next">NEXT</string>
@@ -132,6 +137,7 @@
     <string name="error_empty_bio">Enter Bio</string>
     <string name="error_empty_zipcode">Enter Zipcode</string>
     <string name="error_empty_image">Please select profile image</string>
+    <string name="error_empty_image_car">Please select car image</string>
     <string name="error_empty_type">Please select a vehicle type</string>
     <string name="error_empty_timezone">Please select a TimeZone</string>
 

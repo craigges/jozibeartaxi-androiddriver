@@ -2,11 +2,13 @@ package com.jozibear247_cab.driver;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +27,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.callback.ImageOptions;
+import com.colorpicker.dialog.ColorPickerDialogFragment;
 import com.jozibear247_cab.driver.base.ActionBarBaseActivitiy;
 import com.jozibear247_cab.driver.db.DBHelper;
 import com.jozibear247_cab.driver.model.User;
@@ -50,24 +53,27 @@ import java.util.HashMap;
  * 
  */
 public class ProfileActivity extends ActionBarBaseActivitiy implements
-		OnClickListener, AsyncTaskCompleteListener {
+		OnClickListener, AsyncTaskCompleteListener, ColorPickerDialogFragment.ColorPickerDialogListener {
 	private MyFontEditTextView etProfileFname, etProfileLName, etProfileEmail,
 			etProfileNumber, etProfileAddress, etProfileBio, etProfileZipcode,
-			etProfilePassword;
-	private ImageView ivProfile, btnActionMenu;
+			etProfilePassword,
+			etProfileMake, etProfileModel, etProfileColor, etProfileCity, etProfileRegNo;
+	private MyFontTextView tvProfileColor;
+	private ImageView ivProfile, ivCar, btnActionMenu;
 	private MyFontButton tvProfileSubmit;
 //	private DBHelper dbHelper;
 	private Uri uri = null;
 	private AQuery aQuery;
-	private String profileImageData, profileImageFilePath, loginType;
+	private String profileImageData, profileCarImageData, profileImageFilePath, loginType;
 	private Bitmap profilePicBitmap;
 //	private PreferenceHelper preferenceHelper;
-	private ImageOptions imageOptions;
+	private ImageOptions imageOptions, imageOptions1;
 	private final String TAG = "profileActivity";
 	private ParseContent parseContent;
 	private MyFontTextView ettimezone;
 	String[] timezone_display, timezone_value;
 	int timezone_pos = -1;
+	int nImage = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +97,24 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		etProfileZipcode = (MyFontEditTextView) findViewById(R.id.etProfileZipCode);
 		ettimezone = (MyFontTextView) findViewById(R.id.etprofiletimezone);
 		ettimezone.setOnClickListener(this);
+
+		etProfileMake = (MyFontEditTextView) findViewById(R.id.etProfileMake);
+		etProfileModel = (MyFontEditTextView) findViewById(R.id.etProfileModel);
+		etProfileColor = (MyFontEditTextView) findViewById(R.id.etProfileColor);
+		etProfileCity = (MyFontEditTextView) findViewById(R.id.etProfileCity);
+		etProfileRegNo = (MyFontEditTextView) findViewById(R.id.etProfileRegNo);
+		tvProfileColor = (MyFontTextView) findViewById(R.id.tvProfileColor);
 		tvProfileSubmit = (MyFontButton) findViewById(R.id.tvProfileSubmit);
 		ivProfile = (ImageView) findViewById(R.id.ivProfileProfile);
+		ivCar = (ImageView) findViewById(R.id.ivProfileCar);
 		btnActionMenu = (ImageButton) findViewById(R.id.btnActionMenu);
 		btnActionMenu.setVisibility(View.VISIBLE);
 		setActionBarTitle(getString(R.string.text_profile));
 		setActionBarIcon(R.drawable.nav_profile);
 		ivProfile.setOnClickListener(this);
+		ivCar.setOnClickListener(this);
+		tvProfileColor.setOnClickListener(this);
+
 		tvProfileSubmit.setOnClickListener(this);
 		tvProfileSubmit.setText(getResources().getString(
 				R.string.text_edit_profile));
@@ -117,6 +134,12 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		imageOptions.targetWidth = 200;
 		imageOptions.fallback = R.drawable.user;
 
+		imageOptions1 = new ImageOptions();
+		imageOptions1.memCache = true;
+		imageOptions1.fileCache = true;
+		imageOptions1.targetWidth = 200;
+		imageOptions1.fallback = R.drawable.car;
+
 		timezone_display = getResources().getStringArray(R.array.time_zone);
 		timezone_value = getResources().getStringArray(R.array.time_zone_value);
 		setData();
@@ -133,6 +156,13 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		etProfilePassword.setEnabled(false);
 		ivProfile.setEnabled(false);
 		ettimezone.setEnabled(false);
+
+		etProfileRegNo.setEnabled(false);
+		etProfileMake.setEnabled(false);
+		etProfileModel.setEnabled(false);
+		etProfileCity.setEnabled(false);
+		ivCar.setEnabled(false);
+		tvProfileColor.setEnabled(false);
 	}
 
 	private void enableViews() {
@@ -146,6 +176,13 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		etProfilePassword.setEnabled(true);
 		ivProfile.setEnabled(true);
 		ettimezone.setEnabled(true);
+
+		etProfileRegNo.setEnabled(true);
+		etProfileMake.setEnabled(true);
+		etProfileModel.setEnabled(true);
+		etProfileCity.setEnabled(true);
+		ivCar.setEnabled(true);
+		tvProfileColor.setEnabled(true);
 	}
 
 	@Override
@@ -167,8 +204,9 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 //		dbHelper = new DBHelper(getApplicationContext());
 		User user = DBHelper.getInstance(this).getUser();
 
-		aQuery.id(ivProfile).progress(R.id.pBar)
-				.image(user.getPicture(), imageOptions);
+		aQuery.id(ivCar).progress(R.id.pBar1).image(user.getPictureCar(), imageOptions1);
+		aQuery.id(ivProfile).progress(R.id.pBar).image(user.getPicture(), imageOptions);
+
 		etProfileFname.setText(user.getFname());
 		etProfileLName.setText(user.getLname());
 		etProfileEmail.setText(user.getEmail());
@@ -194,12 +232,24 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		// etProfileZipcode.setText(user.getZipcode());
 		Log.d("mahi", "time zone" + user.getTimezone());
 		ettimezone.setText(user.getTimezone());
+
 		for (int i = 0; i < timezone_value.length; i++) {
 			if (timezone_value[i].equals(user.getTimezone())) {
 				ettimezone.setText(timezone_display[i]);
 				break;
 			}
 		}
+
+		etProfileMake.setText(user.getMake());
+		etProfileModel.setText(user.getModel());
+		etProfileColor.setText(user.getColor());
+
+		if(user.getColor().isEmpty() || user.getColor() == null)
+			tvProfileColor.setBackgroundColor(Color.BLACK);
+		else
+			tvProfileColor.setBackgroundColor(Color.parseColor(user.getColor()));
+		etProfileCity.setText(user.getCity());
+		etProfileRegNo.setText(user.getRegno());
 
 		Log.d("xxx", "checking error  " + user.getTimezone());
 		aQuery.id(R.id.ivProfileProfile).image(user.getPicture(), true, true,
@@ -214,9 +264,27 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 							if(imgFile != null) {
 								profileImageData = aQuery.getCachedFile(url).getPath();
 							}
+							iv.setImageBitmap(bm);
 						}
 						AppLog.Log(TAG, "URL path FROM AQUERY::" + url);
-						iv.setImageBitmap(bm);
+					}
+				});
+
+		aQuery.id(R.id.ivProfileCar).image(user.getPictureCar(), true, true,
+				200, 0, new BitmapAjaxCallback() {
+
+					@Override
+					public void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
+						AppLog.Log(TAG, "URL FROM AQUERY::" + url);
+						if(!url.isEmpty()) {
+							File imgFile = aQuery.getCachedFile(url);
+							if (imgFile != null) {
+								profileCarImageData = aQuery.getCachedFile(url).getPath();
+							}
+
+							iv.setImageBitmap(bm);
+						}
+						AppLog.Log(TAG, "URL path FROM AQUERY::" + url);
 					}
 				});
 	}
@@ -264,14 +332,13 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 		// }
 
 		if (etProfileNumber.getText().length() == 0) {
-			AndyUtils
-					.showToast(
-							getResources().getString(
-									R.string.error_empty_number), this);
+			AndyUtils.showToast(getResources().getString(R.string.error_empty_number), this);
 			return;
 		} else if (profileImageData == null || profileImageData.equals("")) {
-			AndyUtils.showToast(
-					getResources().getString(R.string.error_empty_image), this);
+			AndyUtils.showToast(getResources().getString(R.string.error_empty_image), this);
+			return;
+		} else if (profileCarImageData == null || profileCarImageData.equals("")) {
+			AndyUtils.showToast(getResources().getString(R.string.error_empty_image), this);
 			return;
 		} else {
 			updateSimpleProfile(loginType);
@@ -295,44 +362,46 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put(AndyConstants.URL, AndyConstants.ServiceType.UPDATE_PROFILE);
 			map.put(AndyConstants.Params.ID, PreferenceHelper.getInstance(this).getUserId());
-			map.put(AndyConstants.Params.TOKEN,
-					PreferenceHelper.getInstance(this).getSessionToken());
-			map.put(AndyConstants.Params.FIRSTNAME, etProfileFname.getText()
-					.toString());
-			map.put(AndyConstants.Params.LAST_NAME, etProfileLName.getText()
-					.toString());
+			map.put(AndyConstants.Params.TOKEN, PreferenceHelper.getInstance(this).getSessionToken());
+			map.put(AndyConstants.Params.FIRSTNAME, etProfileFname.getText().toString());
+			map.put(AndyConstants.Params.LAST_NAME, etProfileLName.getText().toString());
 			/*
 			 * map.put(AndyConstants.Params.EMAIL, etProfileEmail.getText()
 			 * .toString());
 			 */
-			map.put(AndyConstants.Params.PASSWORD, etProfilePassword.getText()
-					.toString());
+			map.put(AndyConstants.Params.PASSWORD, etProfilePassword.getText().toString());
 			map.put(AndyConstants.Params.PICTURE, profileImageData);
-			map.put(AndyConstants.Params.PHONE, etProfileNumber.getText()
-					.toString());
+			map.put(AndyConstants.Params.PHONE, etProfileNumber.getText().toString());
 			if (TextUtils.isEmpty(etProfileBio.getText().toString())) {
 				map.put(AndyConstants.Params.BIO, " ");
 			} else
-				map.put(AndyConstants.Params.BIO, etProfileBio.getText()
-						.toString());
+				map.put(AndyConstants.Params.BIO, etProfileBio.getText().toString());
+
 			if (TextUtils.isEmpty(etProfileAddress.getText().toString())) {
 				map.put(AndyConstants.Params.ADDRESS, " ");
 			} else
-				map.put(AndyConstants.Params.ADDRESS, etProfileAddress
-						.getText().toString());
+				map.put(AndyConstants.Params.ADDRESS, etProfileAddress.getText().toString());
+
 			map.put(AndyConstants.Params.STATE, "");
 			map.put(AndyConstants.Params.COUNTRY, "");
+
 			if (TextUtils.isEmpty(etProfileZipcode.getText().toString())) {
 				map.put(AndyConstants.Params.ZIPCODE, " ");
 			} else
-				map.put(AndyConstants.Params.ZIPCODE, etProfileZipcode
-						.getText().toString().trim());
+				map.put(AndyConstants.Params.ZIPCODE, etProfileZipcode.getText().toString().trim());
+
 			if (!TextUtils.isEmpty(ettimezone.getText()) && timezone_pos != -1)
-				map.put(AndyConstants.Params.TIMEZONE,
-						timezone_value[timezone_pos]);
+				map.put(AndyConstants.Params.TIMEZONE, timezone_value[timezone_pos]);
+
+			map.put(AndyConstants.Params.MAKE, etProfileMake.getText().toString().trim());
+			map.put(AndyConstants.Params.MODEL, etProfileModel.getText().toString().trim());
+			map.put(AndyConstants.Params.CITY, etProfileCity.getText().toString().trim());
+			map.put(AndyConstants.Params.REGNO, etProfileRegNo.getText().toString().trim());
+			map.put(AndyConstants.Params.COLOR, etProfileColor.getText().toString().trim());
+			map.put(AndyConstants.Params.PICTURE_CAR, profileCarImageData);
+
 			Log.d("xxx", map.toString());
-			new MultiPartRequester(this, map,
-					AndyConstants.ServiceCode.UPDATE_PROFILE, this);
+			new MultiPartRequester(this, map, AndyConstants.ServiceCode.UPDATE_PROFILE, this);
 		} else {
 			updateSocialProfile(type);
 		}
@@ -395,7 +464,21 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 			}
 			break;
 		case R.id.ivProfileProfile:
+			nImage = 0;
 			showPictureDialog();
+			break;
+
+		case R.id.ivProfileCar:
+			nImage = 1;
+			showPictureDialog();
+			break;
+
+		case R.id.tvProfileColor:
+			ColorPickerDialogFragment f = ColorPickerDialogFragment
+					.newInstance(0, null, null, Color.BLACK, false);
+
+			f.setStyle(DialogFragment.STYLE_NORMAL, R.style.DarkPickerDialogTheme);
+			f.show(getFragmentManager(), "d");
 			break;
 
 		case R.id.btnActionNotification:
@@ -655,8 +738,13 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == RESULT_OK) {
 			AppLog.Log(TAG, "Handle crop");
-			profileImageData = getRealPathFromURI(Crop.getOutput(result));
-			ivProfile.setImageURI(Crop.getOutput(result));
+			if(nImage==0) {
+				profileImageData = getRealPathFromURI(Crop.getOutput(result));
+				ivProfile.setImageURI(Crop.getOutput(result));
+			} else {
+				profileCarImageData = getRealPathFromURI(Crop.getOutput(result));
+				ivCar.setImageURI(Crop.getOutput(result));
+			}
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(this, Crop.getError(result).getMessage(),
 					Toast.LENGTH_SHORT).show();
@@ -678,5 +766,30 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 	public void onBackPressed() {
 		super.onBackPressed();
 		startActivity(new Intent(ProfileActivity.this, MapActivity.class));
+	}
+
+	@Override
+	public void onColorSelected(int dialogId, int color) {
+		etProfileColor.setText(colorToHexString(color));
+		tvProfileColor.setBackgroundColor(color);
+	}
+
+	@Override
+	public void onDialogDismissed(int dialogId) {
+
+	}
+
+	private static String colorToHexString(int color) {
+		return String.format("#%06X", 0xFFFFFF & color);
+	}
+
+	private static int hexStringToInt(String hexString) {
+		int ret = 0;
+		try {
+			ret = Integer.valueOf(hexString.replace("#", ""), 16);
+		} catch(Exception e) {
+
+		}
+		return ret;
 	}
 }

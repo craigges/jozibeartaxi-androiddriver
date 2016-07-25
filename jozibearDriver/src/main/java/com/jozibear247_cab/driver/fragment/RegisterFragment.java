@@ -2,10 +2,12 @@ package com.jozibear247_cab.driver.fragment;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,13 +21,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
+import com.colorpicker.dialog.ColorPickerDialogFragment;
+import com.jozibear247_cab.driver.MainActivity;
 import com.jozibear247_cab.driver.R;
+import com.jozibear247_cab.driver.RegisterActivity;
 import com.jozibear247_cab.driver.adapter.VehicalTypeListAdapter;
 import com.jozibear247_cab.driver.base.BaseRegisterFragment;
 import com.jozibear247_cab.driver.model.VehicalType;
@@ -61,11 +67,12 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		AsyncTaskCompleteListener {
 	private MyFontEditTextView etRegisterFname, etRegisterLName,
 			etRegisterPassword, etRegisterEmail, etRegisterNumber,
-			etRegisterAddress, etRegisterBio, etRegisterZipcode;
-	private MyFontTextView tvCountryCode;
+			etRegisterAddress, etRegisterBio, etRegisterZipcode,
+			etRegisterMake, etRegisterModel, etRegisterColor, etRegisterCity, etRegisterRegNo;
+	private MyFontTextView tvCountryCode, tvRegisterColor;
 //	private ImageButton btnFb, btnGplus;
 	private GridView gvTypes;
-	private ImageView ivProfile;
+	private ImageView ivProfile, ivCar;
 	private boolean mSignInClicked, mIntentInProgress;
 //	private ConnectionResult mConnectionResult;
 //	private GoogleApiClient mGoogleApiClient;
@@ -76,7 +83,8 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	private String country;
 	private Uri uri = null;
 	private String profileImageFilePath, loginType = AndyConstants.MANUAL,
-			socialId, profileImageData = null, socialProPicUrl;
+			socialId, profileImageData = null, carImageData = null, socialProPicUrl;
+	int		nImage = 0;
 	private Bitmap profilePicBitmap;
 	private ImageOptions profileImageOptions;
 //	private SimpleFacebookConfiguration facebookConfiguration;
@@ -105,6 +113,8 @@ public class RegisterFragment extends BaseRegisterFragment implements
 
 		ivProfile = (ImageView) registerFragmentView
 				.findViewById(R.id.ivRegisterProfile);
+		ivCar = (ImageView) registerFragmentView
+				.findViewById(R.id.ivRegisterCar);
 		etRegisterAddress = (MyFontEditTextView) registerFragmentView
 				.findViewById(R.id.etRegisterAddress);
 		etRegisterBio = (MyFontEditTextView) registerFragmentView
@@ -123,6 +133,21 @@ public class RegisterFragment extends BaseRegisterFragment implements
 				.findViewById(R.id.etRegisterZipCode);
 		tvCountryCode = (MyFontTextView) registerFragmentView
 				.findViewById(R.id.tvRegisterCountryCode);
+
+		etRegisterMake = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterMake);
+		etRegisterModel = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterModel);
+		etRegisterColor = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterColor);
+		tvRegisterColor = (MyFontTextView) registerFragmentView
+				.findViewById(R.id.tvRegisterColor);
+		etRegisterCity = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterNo);
+		etRegisterRegNo = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterCity);
+
+
 //		btnFb = (ImageButton) registerFragmentView
 //				.findViewById(R.id.btnRegisterFb);
 //		btnGplus = (ImageButton) registerFragmentView
@@ -143,11 +168,14 @@ public class RegisterFragment extends BaseRegisterFragment implements
 
 		tvCountryCode.setOnClickListener(this);
 		ivProfile.setOnClickListener(this);
+		ivCar.setOnClickListener(this);
 //		registerFragmentView.findViewById(R.id.btnRegisterFb)
 //				.setOnClickListener(this);
 //		registerFragmentView.findViewById(R.id.btnRegisterGplus)
 //				.setOnClickListener(this);
 		registerFragmentView.findViewById(R.id.tvRegisterSubmit)
+				.setOnClickListener(this);
+		registerFragmentView.findViewById(R.id.tvRegisterColor)
 				.setOnClickListener(this);
 
 		return registerFragmentView;
@@ -276,9 +304,13 @@ public class RegisterFragment extends BaseRegisterFragment implements
 //			break;
 
 		case R.id.ivRegisterProfile:
+			nImage = 0;
 			showPictureDialog();
 			break;
-
+		case R.id.ivRegisterCar:
+			nImage = 1;
+			showPictureDialog();
+			break;
 //		case R.id.btnRegisterGplus:
 //			mSignInClicked = true;
 //			if (!mGoogleApiClient.isConnecting()) {
@@ -326,7 +358,9 @@ public class RegisterFragment extends BaseRegisterFragment implements
 					}).show();
 
 			break;
-
+		case R.id.tvRegisterColor:
+			((RegisterActivity)getActivity()).showColorPicker(hexStringToInt(etRegisterColor.getText().toString()));
+			break;
 		default:
 			break;
 		}
@@ -390,7 +424,13 @@ public class RegisterFragment extends BaseRegisterFragment implements
 					getResources().getString(R.string.error_empty_image),
 					registerActivity);
 			return;
-		} else if (selectedTypePostion == -1) {
+		}else if (carImageData == null || carImageData.equals("")) {
+			AndyUtils.showToast(
+					getResources().getString(R.string.error_empty_image_car),
+					registerActivity);
+			return;
+		}
+		else if (selectedTypePostion == -1) {
 			AndyUtils.showToast(
 					getResources().getString(R.string.error_empty_type),
 					registerActivity);
@@ -703,6 +743,12 @@ public class RegisterFragment extends BaseRegisterFragment implements
 			map.put(AndyConstants.Params.COUNTRY, "");
 			map.put(AndyConstants.Params.ZIPCODE, etRegisterZipcode.getText()
 					.toString().trim());
+			map.put(AndyConstants.Params.MAKE, 	etRegisterMake.getText().toString().trim());
+			map.put(AndyConstants.Params.MODEL, etRegisterModel.getText().toString().trim());
+			map.put(AndyConstants.Params.CITY, 	etRegisterCity.getText().toString().trim());
+			map.put(AndyConstants.Params.COLOR, etRegisterColor.getText().toString().trim());
+			map.put(AndyConstants.Params.REGNO, etRegisterRegNo.getText().toString().trim());
+			map.put(AndyConstants.Params.PICTURE_CAR, carImageData);
 			map.put(AndyConstants.Params.TYPE,
 					String.valueOf(listType.get(selectedTypePostion).getId()));
 			map.put(AndyConstants.Params.DEVICE_TYPE,
@@ -885,8 +931,13 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == registerActivity.RESULT_OK) {
 			AppLog.Log(TAG, "Handle crop");
-			profileImageData = getRealPathFromURI(Crop.getOutput(result));
-			ivProfile.setImageURI(Crop.getOutput(result));
+			if(nImage == 0) {
+				profileImageData = getRealPathFromURI(Crop.getOutput(result));
+				ivProfile.setImageURI(Crop.getOutput(result));
+			} else {
+				carImageData = getRealPathFromURI(Crop.getOutput(result));
+				ivCar.setImageURI(Crop.getOutput(result));
+			}
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(registerActivity,
 					Crop.getError(result).getMessage(), Toast.LENGTH_SHORT)
@@ -913,4 +964,22 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		return CountryZipCode;
 	}
 
+	private static String colorToHexString(int color) {
+		return String.format("#%06X", 0xFFFFFF & color);
+	}
+
+	private static int hexStringToInt(String hexString) {
+		int ret = 0;
+		try {
+			ret = Integer.valueOf(hexString.replace("#", ""), 16);
+		} catch(Exception e) {
+
+		}
+		return ret;
+	}
+
+	public void setColor(int color) {
+		etRegisterColor.setText(colorToHexString(color));
+		tvRegisterColor.setBackgroundColor(color);
+	}
 }

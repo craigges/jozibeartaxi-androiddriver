@@ -117,9 +117,15 @@ public class AndyConstants {
 		public static final String STATE = "state";
 		public static final String COUNTRY = "country";
 		public static final String ZIPCODE = "zipcode";
+		public static final String MAKE = "make";
+		public static final String MODEL = "model";
+		public static final String COLOR = "color";
+		public static final String CITY = "city";
+		public static final String REGNO = "regno";
 		public static final String LOGIN_BY = "login_by";
 		public static final String SOCIAL_UNIQUE_ID = "social_unique_id";
 		public static final String PICTURE = "picture";
+		public static final String PICTURE_CAR = "picture_car";
 		public static final String ID = "id";
 		public static final String TOKEN = "token";
 		public static final String REQUEST_ID = "request_id";

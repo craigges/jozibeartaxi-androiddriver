@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,43 +76,54 @@ public class ClientRequestFragment extends BaseMapFragment implements
 	private AQuery aQuery;
 	private newRequestReciever requestReciever;
 	private boolean selector = false;
-
+	View clientRequestView = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View clientRequestView = inflater.inflate(
-				R.layout.fragment_client_requests, container, false);
 
-		llAcceptReject = (LinearLayout) clientRequestView
-				.findViewById(R.id.llAcceptReject);
-		llUserDetailView = (View) clientRequestView
-				.findViewById(R.id.clientDetailView);
-		btnClientAccept = (MyFontButton) clientRequestView
-				.findViewById(R.id.btnClientAccept);
-		btnClientReject = (MyFontButton) clientRequestView
-				.findViewById(R.id.btnClientReject);
-		// pbTimeLeft = (ProgressBar) clientRequestView
-		// .findViewById(R.id.pbClientReqTime);
-		// rlTimeLeft = (RelativeLayout) clientRequestView
-		// .findViewById(R.id.rlClientReqTimeLeft);
-		btnClientReqRemainTime = (MyFontButton) clientRequestView
-				.findViewById(R.id.btnClientReqRemainTime);
-		tvClientName = (MyFontTextView) clientRequestView
-				.findViewById(R.id.tvClientName);
-		// tvClientPhoneNumber = (MyFontTextView) clientRequestView
-		// .findViewById(R.id.tvClientNumber);
+		if (clientRequestView != null) {
+			ViewGroup parent = (ViewGroup) clientRequestView.getParent();
+			if (parent != null)
+				parent.removeView(clientRequestView);
+		}
 
-		tvClientRating = (RatingBar) clientRequestView
-				.findViewById(R.id.tvClientRating);
+		try {
+			clientRequestView = inflater.inflate(
+					R.layout.fragment_client_requests, container, false);
 
-		ivClientProfilePicture = (ImageView) clientRequestView
-				.findViewById(R.id.ivClientImage);
+			llAcceptReject = (LinearLayout) clientRequestView
+					.findViewById(R.id.llAcceptReject);
+			llUserDetailView = (View) clientRequestView
+					.findViewById(R.id.clientDetailView);
+			btnClientAccept = (MyFontButton) clientRequestView
+					.findViewById(R.id.btnClientAccept);
+			btnClientReject = (MyFontButton) clientRequestView
+					.findViewById(R.id.btnClientReject);
+			// pbTimeLeft = (ProgressBar) clientRequestView
+			// .findViewById(R.id.pbClientReqTime);
+			// rlTimeLeft = (RelativeLayout) clientRequestView
+			// .findViewById(R.id.rlClientReqTimeLeft);
+			btnClientReqRemainTime = (MyFontButton) clientRequestView
+					.findViewById(R.id.btnClientReqRemainTime);
+			tvClientName = (MyFontTextView) clientRequestView
+					.findViewById(R.id.tvClientName);
+			// tvClientPhoneNumber = (MyFontTextView) clientRequestView
+			// .findViewById(R.id.tvClientNumber);
 
-		btnClientAccept.setOnClickListener(this);
-		btnClientReject.setOnClickListener(this);
+			tvClientRating = (RatingBar) clientRequestView
+					.findViewById(R.id.tvClientRating);
 
-		clientRequestView.findViewById(R.id.btnMyLocation).setOnClickListener(
-				this);
+			ivClientProfilePicture = (ImageView) clientRequestView
+					.findViewById(R.id.ivClientImage);
+
+			btnClientAccept.setOnClickListener(this);
+			btnClientReject.setOnClickListener(this);
+
+			clientRequestView.findViewById(R.id.btnMyLocation).setOnClickListener(
+					this);
+		} catch (InflateException e) {
+        /* map is already there, just return view as it is */
+		}
 
 		return clientRequestView;
 	}

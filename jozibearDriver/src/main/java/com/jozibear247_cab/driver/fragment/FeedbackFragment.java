@@ -165,6 +165,17 @@ public class FeedbackFragment extends BaseMapFragment implements
 		((TextView) m_invoiceDlg.findViewById(R.id.tvDis1)).setText(currency + " "+ distCostTmp);
 		((TextView) m_invoiceDlg.findViewById(R.id.tvTime1)).setText(currency + " "+ timeCost);
 		((TextView) m_invoiceDlg.findViewById(R.id.tvTotal1)).setText(currency + " "+ totalTmp);
+		Button btnBillDialogClose = (Button) m_invoiceDlg.findViewById(R.id.btnBillDialogClose);
+		btnBillDialogClose.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				m_bNotPaid = false;
+				sendFinishPayment(1, bill.getTotal());
+				m_invoiceDlg.dismiss();
+			}
+		});
 
 		Button btnCash = (Button) m_invoiceDlg.findViewById(R.id.btnBillCash);
 		btnCash.setOnClickListener(new View.OnClickListener() {

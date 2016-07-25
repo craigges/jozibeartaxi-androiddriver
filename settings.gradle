@@ -1,4 +1,4 @@
-include ':circularImageView'
+include ':circularImageView', ':colorPicker'
 include ':cropLibrary'
 include ':devsmartAndroid'
 include ':androidswitchbackport'

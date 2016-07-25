@@ -1,13 +1,16 @@
 package com.jozibear247_cab.driver;
 
+import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.colorpicker.dialog.ColorPickerDialogFragment;
 import com.jozibear247_cab.driver.base.ActionBarBaseActivitiy;
 import com.jozibear247_cab.driver.fragment.LoginFragment;
 import com.jozibear247_cab.driver.fragment.RegisterFragment;
@@ -20,7 +23,7 @@ import com.jozibear247_cab.driver.utills.AndyUtils;
  * @author Kishan H Dhamat
  * 
  */
-public class RegisterActivity extends ActionBarBaseActivitiy {
+public class RegisterActivity extends ActionBarBaseActivitiy implements ColorPickerDialogFragment.ColorPickerDialogListener{
 	public ActionBar actionBar;
 
 	@Override
@@ -120,4 +123,25 @@ public class RegisterActivity extends ActionBarBaseActivitiy {
 
 	}
 
+	public void showColorPicker(int color) {
+		ColorPickerDialogFragment f = ColorPickerDialogFragment
+				.newInstance(0, null, null, Color.BLACK, false);
+
+		f.setStyle(DialogFragment.STYLE_NORMAL, R.style.DarkPickerDialogTheme);
+		f.show(getFragmentManager(), "d");
+	}
+
+	@Override
+	public void onColorSelected(int dialogId, int color) {
+		RegisterFragment fragment = (RegisterFragment)getSupportFragmentManager().findFragmentByTag(
+				AndyConstants.REGISTER_FRAGMENT_TAG);
+		if (fragment != null && fragment.isVisible()) {
+			fragment.setColor(color);
+		}
+	}
+
+	@Override
+	public void onDialogDismissed(int dialogId) {
+
+	}
 }
