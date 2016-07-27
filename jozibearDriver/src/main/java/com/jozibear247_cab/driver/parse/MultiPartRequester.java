@@ -79,9 +79,11 @@ public class MultiPartRequester {
 
 						builder.addBinaryBody(key, f,
 								ContentType.MULTIPART_FORM_DATA, f.getName());
-					} else {
-						builder.addTextBody(key, map.get(key), ContentType
-								.create("text/plain", MIME.UTF8_CHARSET));
+					} else if(key.equalsIgnoreCase(AndyConstants.Params.PICTURE_CAR)) {
+						File f = new File(map.get(key));
+						builder.addBinaryBody(key, f, ContentType.MULTIPART_FORM_DATA, f.getName());
+					}else{
+						builder.addTextBody(key, map.get(key), ContentType.create("text/plain", MIME.UTF8_CHARSET));
 					}
 					AppLog.Log(TAG, key + "---->" + map.get(key));
 

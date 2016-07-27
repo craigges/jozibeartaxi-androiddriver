@@ -1,9 +1,11 @@
 package com.jozibear247_cab.driver;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.colorpicker.dialog.ColorPickerDialogFragment;
 import com.jozibear247_cab.driver.gcm.CommonUtilities;
 import com.jozibear247_cab.driver.gcm.GCMRegisterHendler;
 import com.jozibear247_cab.driver.utills.AndyUtils;
@@ -142,5 +145,4 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		super.onDestroy();
 	}
-
 }

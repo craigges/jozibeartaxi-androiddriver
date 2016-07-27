@@ -264,59 +264,68 @@
                 
                 
             </LinearLayout>
+         </LinearLayout>
 
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:gravity="bottom" >
+
+            <com.jozibear247_cab.driver.widget.MyFontButton
+                android:id="@+id/btnBillDialogClose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:gravity="bottom" >
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_bill"
+                android:text="@string/text_close"
+                android:textColor="@color/white" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <com.jozibear247_cab.driver.widget.MyFontButton
+                    android:id="@+id/btnBillCash"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal" >
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_bill"
+                    android:text="@string/text_pay_by_cash"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="1dp" />
 
-                    <com.jozibear247_cab.driver.widget.MyFontButton
-                        android:id="@+id/btnBillCash"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_bill"
-                        android:text="@string/text_pay_by_cash"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:layout_marginRight="1dp" />
+                <!--<com.jozibear247_cab.driver.widget.MyFontButton-->
+                <!--android:id="@+id/btnBillCard"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/btn_bill"-->
+                <!--android:text="@string/text_pay_by_card"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:layout_marginLeft="1dp" />-->
 
-                    <com.jozibear247_cab.driver.widget.MyFontButton
-                        android:id="@+id/btnBillCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_bill"
-                        android:text="@string/text_pay_by_card"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="1dp" />
+                <com.jozibear247_cab.driver.widget.MyFontButton
+                    android:id="@+id/btnBillNotPaid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_bill"
+                    android:text="@string/text_trip_not_paid"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="2dp" />
 
-                    <com.jozibear247_cab.driver.widget.MyFontButton
-                        android:id="@+id/btnBillNotPaid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_bill"
-                        android:text="@string/text_trip_not_paid"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="2dp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-        </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -4,21 +4,29 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,9 +47,14 @@ import com.jozibear247_cab.driver.utills.PreferenceHelper;
 import com.jozibear247_cab.driver.widget.MyFontTextView;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +64,10 @@ import java.util.TimerTask;
  */
 public class JobFragment extends BaseMapFragment implements
 		AsyncTaskCompleteListener, LocationReceiveListener {
-//	private GoogleMap googleMap;
+
+	private static final int ANIMATE_SPEEED_TURN = 2000;
+	private static final int BEARING_OFFSET = 20;
+	//	private GoogleMap googleMap;
 	// private PolylineOptions lineOptions;
 	// private BeanRoute route;
 	// private ArrayList<LatLng> points;
@@ -81,8 +97,7 @@ public class JobFragment extends BaseMapFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View jobFragmentView = inflater.inflate(R.layout.fragment_job,
-				container, false);
+		View jobFragmentView = inflater.inflate(R.layout.fragment_job, container, false);
 
 		tvJobTime = (MyFontTextView) jobFragmentView
 				.findViewById(R.id.tvJobTime);
@@ -126,7 +141,6 @@ public class JobFragment extends BaseMapFragment implements
 		}
 
 		setClientDetails(requestDetail);
-		setjobStatus(jobStatus);
 
 		locationHelper = new LocationHelper(mapActivity, true);
 		locationHelper.setLocationReceiveListener(this);
@@ -134,7 +148,16 @@ public class JobFragment extends BaseMapFragment implements
 		locationHelper.onStart();
 
 		// getDistance();
-
+		if(jobStatus >= AndyConstants.IS_WALK_STARTED) {
+			showDestinationMarkerWindow();
+			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
+					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
+							.getClient_d_latitude()),
+							Double.parseDouble(requestDetail
+									.getClient_d_longitude())), 12));
+		} else {
+			showLocationMarkerWindow();
+		}
 	}
 
 	/**
@@ -204,7 +227,6 @@ public class JobFragment extends BaseMapFragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tvJobStatus:
-
 			switch (jobStatus) {
 			case AndyConstants.IS_WALKER_STARTED:
 				walkerStarted();
@@ -245,7 +267,6 @@ public class JobFragment extends BaseMapFragment implements
 	/**
 	 * send this when walk completed
 	 */
-	
 	private void walkCompleted() {
 		if (!AndyUtils.isNetworkAvailable(mapActivity)) {
 			AndyUtils.showToast(
@@ -577,6 +598,12 @@ public class JobFragment extends BaseMapFragment implements
 				jobStatus = AndyConstants.IS_WALK_STARTED;
 				setjobStatus(jobStatus);
 			}
+			showDestinationMarkerWindow();
+			locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
+					.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
+							.getClient_d_latitude()),
+							Double.parseDouble(requestDetail
+									.getClient_d_longitude())), 12));
 			break;
 		case AndyConstants.ServiceCode.WALK_STARTED:
 			AppLog.Log(TAG, "walk started response " + response);
@@ -586,8 +613,18 @@ public class JobFragment extends BaseMapFragment implements
 				jobStatus = AndyConstants.IS_WALK_COMPLETED;
 				setjobStatus(jobStatus);
 				// getDistance();
-				PreferenceHelper.getInstance(mapActivity).putRequestTime(Calendar.getInstance()
-						.getTimeInMillis());
+				try {
+					TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+					Date date = new Date();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+							Locale.US);
+					String strDateTime = sdf.format(date);
+					long curTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+							Locale.US).parse(strDateTime).getTime();
+					PreferenceHelper.getInstance(mapActivity).putRequestTime(curTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				if (markerClientLocation != null) {
 					markerClientLocation.setTitle(mapActivity.getResources()
 							.getString(R.string.job_start_location));
@@ -635,6 +672,7 @@ public class JobFragment extends BaseMapFragment implements
 			// jobStatus = AndyConstants.;
 			// setjobStatus(jobStatus);
 			// }
+			break;
 		case AndyConstants.ServiceCode.PATH_REQUEST:
 			AppLog.Log(TAG, "Path request :" + response);
 			if (parseContent.isSuccess(response)) {
@@ -648,10 +686,77 @@ public class JobFragment extends BaseMapFragment implements
 		}
 	}
 
+	private void animateMarker(final Marker marker, final LatLng toPosition,
+								final boolean hideMarker) {
+		final Handler handler = new Handler();
+		final long start = SystemClock.uptimeMillis();
+		Projection proj = locationHelper.getGoogleMap().getProjection();
+		Point startPoint = proj.toScreenLocation(marker.getPosition());
+		final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+		final long duration = 2000;
+
+		final Interpolator interpolator = new LinearInterpolator();
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				long elapsed = SystemClock.uptimeMillis() - start;
+				float t = interpolator.getInterpolation((float) elapsed
+						/ duration);
+//				double lng = t * toPosition.longitude + (1 - t)
+//						* startLatLng.longitude;
+//				double lat = t * toPosition.latitude + (1 - t)
+//						* startLatLng.latitude;
+//				marker.setPosition(new LatLng(lat, lng));
+
+				if (t < 1.0) {
+					// Post again 16ms later.
+					handler.postDelayed(this, 16);
+				} else {
+					if (hideMarker) {
+						marker.setVisible(false);
+					} else {
+						marker.setVisible(true);
+					}
+					float bearingL = bearingBetweenLatLngs(startLatLng, toPosition);
+
+					CameraPosition cameraPosition =
+							new CameraPosition.Builder()
+									.target(toPosition)
+									.bearing(bearingL + BEARING_OFFSET)
+									.tilt(90)
+									.build();
+
+					locationHelper.getGoogleMap().animateCamera(
+							CameraUpdateFactory.newCameraPosition(cameraPosition),
+							ANIMATE_SPEEED_TURN,
+							null
+					);
+				}
+			}
+		});
+	}
+
+	private Location convertLatLngToLocation(LatLng latLng) {
+		Location location = new Location("someLoc");
+		location.setLatitude(latLng.latitude);
+		location.setLongitude(latLng.longitude);
+		return location;
+	}
+
+	private float bearingBetweenLatLngs(LatLng beginLatLng,LatLng endLatLng) {
+		Location beginLocation = convertLatLngToLocation(beginLatLng);
+		Location endLocation = convertLatLngToLocation(endLatLng);
+		return beginLocation.bearingTo(endLocation);
+	}
+
 	/**
 	 * 
 	 */
 	private void startElapsedTimer() {
+		if (elapsedTimer != null) {
+			elapsedTimer.cancel();
+			elapsedTimer = null;
+		}
 		elapsedTimer = new Timer();
 		elapsedTimer.scheduleAtFixedRate(new TimerRequestStatus(),
 				AndyConstants.DELAY, ELAPSED_TIME_SCHEDULE);
@@ -674,18 +779,27 @@ public class JobFragment extends BaseMapFragment implements
 				@Override
 				public void run() {
 					if (isVisible()) {
-						if (PreferenceHelper.getInstance(mapActivity).getRequestTime() == AndyConstants.NO_TIME) {
-							PreferenceHelper.getInstance(mapActivity).putRequestTime(System
-									.currentTimeMillis());
+						try {
+							TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+							Date date = new Date();
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+									Locale.US);
+							String strDateTime = sdf.format(date);
+							long curTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+									Locale.US).parse(strDateTime).getTime();
+							if (PreferenceHelper.getInstance(mapActivity).getRequestTime() == AndyConstants.NO_TIME) {
+								PreferenceHelper.getInstance(mapActivity).putRequestTime(curTime);
+							}
+							time = String.valueOf((curTime - PreferenceHelper.getInstance(mapActivity)
+									.getRequestTime())
+									/ (1000 * 60));
+							tvJobTime.setText(time
+									+ " "
+									+ mapActivity.getResources().getString(
+									R.string.text_mins));
+						} catch (ParseException e) {
+							e.printStackTrace();
 						}
-						time = String.valueOf((Calendar.getInstance()
-								.getTimeInMillis() - PreferenceHelper.getInstance(mapActivity)
-								.getRequestTime())
-								/ (1000 * 60));
-						tvJobTime.setText(time
-								+ " "
-								+ mapActivity.getResources().getString(
-										R.string.text_mins));
 					}
 				}
 			});
@@ -693,12 +807,38 @@ public class JobFragment extends BaseMapFragment implements
 		}
 	}
 
-	@Override
-	public void onLocationReceived(LatLng latlong) {
-		if (locationHelper.getGoogleMap() == null) {
-			return;
+	private void showLocationMarkerWindow() {
+		if (markerClientLocation == null) {
+			if (requestDetail.getClientLatitude() != null
+					&& requestDetail.getClientLongitude() != null) {
+				markerClientLocation = locationHelper.getGoogleMap().addMarker(new MarkerOptions()
+						.position(
+								new LatLng(Double.parseDouble(requestDetail
+										.getClientLatitude()), Double
+										.parseDouble(requestDetail
+												.getClientLongitude()))).icon(
+								BitmapDescriptorFactory
+										.fromResource(R.drawable.pin_client)));
+				if (jobStatus == AndyConstants.IS_WALK_COMPLETED) {
+					markerClientLocation.setTitle(mapActivity.getResources()
+							.getString(R.string.job_start_location));
+				} else {
+					markerClientLocation.setTitle(mapActivity.getResources()
+							.getString(R.string.client_location));
+				}
+				markerClientLocation.showInfoWindow();
+			}
+		} else {
+			markerClientLocation.showInfoWindow();
 		}
+		locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
+				.newLatLngZoom(new LatLng(Double.parseDouble(requestDetail
+						.getClientLatitude()), Double
+						.parseDouble(requestDetail
+								.getClientLongitude())), 14));
+	}
 
+	private void showDestinationMarkerWindow() {
 		if (markerClient_d_location == null) {
 			if (requestDetail.getClient_d_latitude() != null
 					&& requestDetail.getClient_d_longitude() != null) {
@@ -711,29 +851,25 @@ public class JobFragment extends BaseMapFragment implements
 												Double.parseDouble(requestDetail
 														.getClient_d_longitude())))
 								.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.pin_client))
+										.fromResource(R.drawable.pin_client_dest))
 								.title("Destination"));
+				markerClient_d_location.showInfoWindow();
 			}
+		} else {
+			markerClient_d_location.showInfoWindow();
+		}
+	}
+
+	@Override
+	public void onLocationReceived(LatLng latlong) {
+		if (locationHelper.getGoogleMap() == null) {
+			return;
 		}
 
-		if (markerClientLocation == null) {
-			markerClientLocation = locationHelper.getGoogleMap().addMarker(new MarkerOptions()
-					.position(
-							new LatLng(Double.parseDouble(requestDetail
-									.getClientLatitude()), Double
-									.parseDouble(requestDetail
-											.getClientLongitude()))).icon(
-							BitmapDescriptorFactory
-									.fromResource(R.drawable.pin_client)));
+		showDestinationMarkerWindow();
 
-			if (jobStatus == AndyConstants.IS_WALK_COMPLETED) {
-				markerClientLocation.setTitle(mapActivity.getResources()
-						.getString(R.string.job_start_location));
-			} else {
-				markerClientLocation.setTitle(mapActivity.getResources()
-						.getString(R.string.client_location));
-
-			}
+		if (jobStatus < AndyConstants.IS_WALK_STARTED) {
+			showLocationMarkerWindow();
 		}
 
 		if (latlong != null) {
@@ -749,9 +885,6 @@ public class JobFragment extends BaseMapFragment implements
 									.title(getResources().getString(
 											R.string.my_location)));
 					locationHelper.setMarkerDriverLocation(marker);
-					locationHelper.getGoogleMap().animateCamera(CameraUpdateFactory
-							.newLatLngZoom(new LatLng(latlong.latitude,
-									latlong.longitude), 16));
 				} else {
 					locationHelper.getMarkerDriverLocation().setPosition(new LatLng(
 							latlong.latitude, latlong.longitude));
@@ -778,6 +911,7 @@ public class JobFragment extends BaseMapFragment implements
 				// getDistance();
 			}
 		}
+		setjobStatus(jobStatus);
 	}
 
 	// private void getDistance() {

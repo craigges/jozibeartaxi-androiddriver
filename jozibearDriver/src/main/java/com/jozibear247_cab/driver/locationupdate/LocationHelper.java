@@ -246,6 +246,9 @@ public class LocationHelper implements LocationListener,
 				public View getInfoWindow(Marker marker) {
 					View v = mapActivity.getLayoutInflater().inflate(
 							R.layout.info_window_layout, null);
+					if(marker.getTitle().equalsIgnoreCase("Destination")) {
+						v.setBackground(v.getResources().getDrawable(R.drawable.pin_dest_detail_bg));
+					}
 					MyFontTextView title = (MyFontTextView) v
 							.findViewById(R.id.markerBubblePickMeUp);
 					MyFontTextView content = (MyFontTextView) v
@@ -301,7 +304,6 @@ public class LocationHelper implements LocationListener,
 				Address address = list.get(0);
 				StringBuilder sb = new StringBuilder();
 				if (address.getAddressLine(0) != null) {
-
 					sb.append(address.getAddressLine(0)).append(", ");
 				}
 				sb.append(address.getLocality()).append(", ");
@@ -313,17 +315,12 @@ public class LocationHelper implements LocationListener,
 				strAddress = strAddress.replace("null", "");
 				strAddress = strAddress.replace("Unnamed", "");
 				if (!TextUtils.isEmpty(strAddress)) {
-
 					et.setText(strAddress);
-
 				}
 			}
-			Log.d("hey", strAddress);
-
 		} catch (IOException exc) {
 			exc.printStackTrace();
 		}
-
 	}
 
 	public void initPreviousDrawPath(ArrayList<LatLng> points) {
@@ -376,7 +373,11 @@ public class LocationHelper implements LocationListener,
 	}
 
 	private void startPeriodicUpdates() {
-		mLocationClient.requestLocationUpdates(mLocationRequest, this);
+		try {
+			mLocationClient.requestLocationUpdates(mLocationRequest, this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -43,7 +43,6 @@ public class MyFontButton extends Button {
 				typeface = Typeface.createFromAsset(ctx.getAssets(),
 						"fonts/OPENSANS-SEMIBOLD.ttf");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e(TAG, "Could not get typeface: " + e.getMessage());

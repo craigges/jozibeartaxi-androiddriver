@@ -95,6 +95,20 @@ public class User implements Serializable {
 	}
 
 	private String fname, lname, contact, address, bio, zipcode, email,
-			picture,timezone;
+			picture,timezone,
+			make, model, city, reg_no, color, picture_car;
 
+	public void setMake(String make) {this.make = make;}
+	public void setModel(String model) {this.model = model;}
+	public void setColor(String color) {this.color = color;}
+	public void setCity(String city) {this.city = city;}
+	public void setRegno(String reg_no) {this.reg_no = reg_no;}
+	public void setPictureCar(String picture_car) {this.picture_car = picture_car;}
+
+	public String getMake(){ return make;}
+	public String getModel(){ return model;}
+	public String getCity(){ return city;}
+	public String getColor(){ return color;}
+	public String getRegno(){ return reg_no;}
+	public String getPictureCar() { return picture_car;}
 }

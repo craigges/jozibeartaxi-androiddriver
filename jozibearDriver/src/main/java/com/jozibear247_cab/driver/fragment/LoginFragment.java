@@ -374,7 +374,7 @@ public class LoginFragment extends BaseRegisterFragment implements
 		AppLog.Log(TAG, response);
 		switch (serviceCode) {
 		case AndyConstants.ServiceCode.LOGIN:
-			if (!parseContent.isSuccess(response)) {
+			if (!parseContent.isSuccessLong(response)) {
 				return;
 			}
 			if (parseContent.isSuccessWithId(response)) {
