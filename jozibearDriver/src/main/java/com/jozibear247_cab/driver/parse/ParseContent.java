@@ -739,12 +739,9 @@ public class ParseContent {
 					type.setIcon(typeJson.getString(ICON));
 					type.setId(typeJson.getInt(ID));
 					type.setName(typeJson.getString(AndyConstants.Params.NAME));
-					type.setPricePerUnitDistance(typeJson
-							.getString(PRICE_PER_UNIT_DISTANCE));
-					type.setPricePerUnitTime(typeJson
-							.getString(PRICE_PER_UNIT_TIME));
+					type.setPricePerUnitDistance(typeJson.getString(PRICE_PER_UNIT_DISTANCE));
+					type.setPricePerUnitTime(typeJson.getString(PRICE_PER_UNIT_TIME));
 					list.add(type);
-
 				}
 			}
 		} catch (JSONException e) {

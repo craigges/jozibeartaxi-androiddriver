@@ -143,9 +143,9 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		tvRegisterColor = (MyFontTextView) registerFragmentView
 				.findViewById(R.id.tvRegisterColor);
 		etRegisterCity = (MyFontEditTextView) registerFragmentView
-				.findViewById(R.id.etRegisterNo);
-		etRegisterRegNo = (MyFontEditTextView) registerFragmentView
 				.findViewById(R.id.etRegisterCity);
+		etRegisterRegNo = (MyFontEditTextView) registerFragmentView
+				.findViewById(R.id.etRegisterNo);
 
 
 //		btnFb = (ImageButton) registerFragmentView
